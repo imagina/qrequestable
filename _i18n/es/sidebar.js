@@ -1,3 +1,4 @@
 export default {
-  adminRequestable: 'Peticiones'
+  mainRequestable: 'Peticiones',
+  mainRequestableCreate: 'Nueva Petición',
 }

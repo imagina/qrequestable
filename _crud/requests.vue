@@ -1,9 +1,37 @@
-<template></template>
+<template>
+  <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading" :title="modal.title">
+    <div class="box">
+      <q-list separator dense>
+        <q-item v-for="(item, itemKey) in modal.requestData" :key="itemKey" style="padding: 8px 0">
+          <q-item-section>
+            <q-item-label v-if="item.fieldType != 'media'">{{ item.label }}</q-item-label>
+            <!--File preview-->
+            <q-item-label v-if="item.fieldType == 'media'">
+              <file-list v-model="item.value" grid-col-class="col-12" hide-header/>
+            </q-item-label>
+            <!--value-->
+            <q-item-label v-else caption>{{ item.value }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
+  </master-modal>
+</template>
 <script>
+//Components
+import fileList from '@imagina/qsite/_components/master/fileList'
+
 export default {
+  components: {fileList},
   data() {
     return {
-      crudId: this.$uid()
+      crudId: this.$uid(),
+      modal: {
+        title: null,
+        show: false,
+        loading: false,
+        requestData: []
+      }
     }
   },
   computed: {
@@ -14,8 +42,12 @@ export default {
         apiRoute: 'apiRoutes.qrequestable.requestables',
         permission: 'requestable.requestables',
         extraFormFields: 'requestable.crud-fields.requestable',
-        create: false,
+        create: {
+          title: this.$tr('qrequestable.layout.newRequest'),
+          to: {name: 'qrequestable.main.requestables.create'}
+        },
         read: {
+          showAs: (config('app.mode') == 'iadmin') ? 'table' : 'grid',
           columns: [
             {name: 'id', label: this.$tr('ui.form.id'), field: 'id', sortable: true, align: 'left'},
             {
@@ -38,13 +70,28 @@ export default {
               name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
             },
           ],
-          requestParams: {include: 'category,status'},
+          requestParams: {
+            include: 'category,status,fields,files',
+            filter: (config('app.mode') == 'iadmin') ? {} : {
+              createdBy: this.$store.state.quserAuth.userId
+            }
+          },
           actions: [
             {
+              name: 'viewEntity',
               icon: 'fas fa-eye',
               label: this.$tr('ui.label.show'),
               action: (item) => {
                 if (item.requestableUrl) this.$helper.openExternalURL(item.requestableUrl)
+              }
+            },
+            {
+              name: 'viewLead',
+              icon: 'fas fa-info-circle',
+              color: 'info',
+              tooltip: this.$tr('ui.label.information'),
+              action: (item) => {
+                this.showRequestData(item)
               }
             }
           ]
@@ -85,5 +132,61 @@ export default {
       return this.$store.state.qcrudComponent.component[this.crudId] || {}
     }
   },
+  methods: {
+    //Fields to show
+    async showRequestData(requestData) {
+      //Set modal data
+      this.modal = {
+        title: requestData.category.title,
+        show: true,
+        loading: true,
+        requestData: []
+      }
+
+      //Get form data
+      let form = requestData.category?.form || false
+
+      //Merge values
+      if (form) {
+        //Get field values
+        let requestValues = {}
+        requestData.fields.forEach(item => requestValues[item.name] = item.value)
+        //get files
+        let files = this.$clone(requestData.files || [])
+        //Request data
+        let requestFormParams = {refresh: true, params: {include: 'fields'}}
+        //Get form
+        this.$crud.show('apiRoutes.qform.forms', form.id, requestFormParams).then(response => {
+          this.$clone(response.data.fields).forEach(field => {
+            let fieldType = field.dynamicField?.type || 'input'//get field type
+            let fieldValue = requestValues[this.$helper.convertStringToSnakeCase(field.name)] || '-'//get field value
+            //Get field file
+            let fieldFile = (fieldType != 'media') ? null :
+                files.find(item => item.zone == (field.dynamicField.props.zone || 'mainimage'))
+
+            //Add extra data to field
+            this.modal.requestData.push({
+              ...field,
+              label: field.label.replace('*', ''),
+              value: (fieldType != 'media') ? fieldValue : [{
+                id: this.$uid(),
+                ...fieldFile,
+                filename: field.label,
+              }],
+              fieldType: fieldType
+            })
+          })
+
+          this.modal.loading = false
+        }).catch(error => {
+          this.modal.loading = false
+        })
+      }
+    },
+    //Reset Modal
+    resetModal() {
+      this.modal = {show: false, request: false}
+    }
+  }
 }
 </script>

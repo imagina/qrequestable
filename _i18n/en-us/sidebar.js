@@ -1,3 +1,4 @@
 export default {
-  adminRequestable : 'Requests'
+  mainRequestable: 'Request',
+  mainRequestableCreate: 'New Request',
 }

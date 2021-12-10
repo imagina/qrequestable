@@ -1,3 +1,5 @@
 export default {
-  updateRequest: 'Update Request'
+  newRequest: 'New Request',
+  updateRequest: 'Update Request',
+  selectRequestCategoryToForm : 'Select a request category'
 }

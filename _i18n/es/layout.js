@@ -1,3 +1,5 @@
 export default {
-  updateRequest: 'Actualizar Petición'
+  newRequest: 'Nueva Petición',
+  updateRequest: 'Actualizar Petición',
+  selectRequestCategoryToForm: 'Selecciona una categoría para crear tu petición'
 }
