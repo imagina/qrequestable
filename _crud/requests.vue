@@ -1,19 +1,43 @@
 <template>
   <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading" :title="modal.title">
     <div class="box">
-      <q-list separator dense>
-        <q-item v-for="(item, itemKey) in modal.requestData" :key="itemKey" style="padding: 8px 0">
-          <q-item-section>
-            <q-item-label v-if="item.fieldType != 'media'">{{ item.label }}</q-item-label>
-            <!--File preview-->
-            <q-item-label v-if="item.fieldType == 'media'">
-              <file-list v-model="item.value" grid-col-class="col-12" hide-header/>
-            </q-item-label>
-            <!--value-->
-            <q-item-label v-else caption>{{ item.value }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <!--Tabs panel-->
+      <q-tabs v-model="modal.tab" dense class="text-grey" active-color="primary" indicator-color="primary"
+              align="justify" narrow-indicator>
+        <q-tab name="comments" :label="$trp('ui.label.comment')"/>
+        <q-tab name="form" :label="$tr('ui.label.form')"/>
+      </q-tabs>
+      <q-separator/>
+      <!--Tabs panel-->
+      <q-tab-panels v-model="modal.tab" animated>
+        <!--Comments Tab-->
+        <q-tab-panel name="comments">
+          <q-list separator dense>
+            <q-item v-for="(item, itemKey) in modal.comments" :key="itemKey" style="padding: 8px 0">
+              <q-item-section>
+                <q-item-label>{{ item.comment }}</q-item-label>
+                <q-item-label caption>{{ $trd(item.createdAt) }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-tab-panel>
+        <!--Form Tab-->
+        <q-tab-panel name="form">
+          <q-list separator dense>
+            <q-item v-for="(item, itemKey) in modal.requestData" :key="itemKey" style="padding: 8px 0">
+              <q-item-section>
+                <q-item-label v-if="item.fieldType != 'media'">{{ item.label }}</q-item-label>
+                <!--File preview-->
+                <q-item-label v-if="item.fieldType == 'media'">
+                  <file-list v-model="item.value" grid-col-class="col-12" hide-header/>
+                </q-item-label>
+                <!--value-->
+                <q-item-label v-else caption>{{ item.value }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </master-modal>
 </template>
@@ -30,7 +54,8 @@ export default {
         title: null,
         show: false,
         loading: false,
-        requestData: []
+        requestData: [],
+        tab: 'comments'
       }
     }
   },
@@ -71,7 +96,7 @@ export default {
             },
           ],
           requestParams: {
-            include: 'category,status,fields,files',
+            include: 'category,status,fields,files,comments',
             filter: (config('app.mode') == 'iadmin') ? {} : {
               createdBy: this.$store.state.quserAuth.userId
             }
@@ -124,6 +149,15 @@ export default {
               apiRoute: 'apiRoutes.qrequestable.statuses'
             }
           },
+          comment: {
+            value: null,
+            type: 'input',
+            props: {
+              label: `${this.$tr('ui.form.comment')}`,
+              type: 'textarea',
+              rows: "3"
+            },
+          },
         },
       }
     },
@@ -140,7 +174,9 @@ export default {
         title: requestData.category.title,
         show: true,
         loading: true,
-        requestData: []
+        requestData: [],
+        tab: 'comments',
+        comments: requestData.comments || []
       }
 
       //Get form data
