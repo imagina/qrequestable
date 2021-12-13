@@ -146,7 +146,8 @@ export default {
               label: `${this.$tr('ui.form.status')}`
             },
             loadOptions: {
-              apiRoute: 'apiRoutes.qrequestable.statuses'
+              apiRoute: 'apiRoutes.qrequestable.statuses',
+              requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
             }
           },
           comment: {
