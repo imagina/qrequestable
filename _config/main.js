@@ -2,6 +2,7 @@ export default {
   moduleName: 'requestable',
   //Entities
   entityNames: {
-    requestable: 'requestable'
+    requestable: 'requestable',
+    status : 'status'
   }
 }
