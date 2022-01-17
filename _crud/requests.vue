@@ -87,6 +87,10 @@ export default {
             },
             {name: 'type', label: this.$tr('ui.form.type'), field: 'type', align: 'left'},
             {
+              name: 'creator', label: this.$tr('ui.form.createdBy'), field: 'creator',
+              format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
+            },
+            {
               name: 'createdAt', label: this.$tr('ui.form.createdAt'), field: 'createdAt',
               format: val => val ? this.$trd(val) : '-',
               align: 'left', sortable: true
@@ -96,7 +100,7 @@ export default {
             },
           ],
           requestParams: {
-            include: 'category,status,fields,files,comments',
+            include: 'category,status,fields,files,comments,creator',
             filter: (config('app.mode') == 'iadmin') ? {} : {
               createdBy: this.$store.state.quserAuth.userId
             }
