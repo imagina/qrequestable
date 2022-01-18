@@ -1,19 +1,19 @@
 export default {
-  newRequest: 'New Request',
-  updateRequest: 'Update Request',
-  newStatus: 'New Status',
-  updateStatus: 'Update Status',
-  selectRequestCategoryToForm: 'Select a Request Category',
-  newCategory : 'New Category',
-  updateCategory: 'Update Category',
-  timeElapsedToCancel: 'Time Elapsed to Cancel',
+  newRequest: 'New request',
+  updateRequest: 'Update request',
+  newStatus: 'New status',
+  updateStatus: 'Update status',
+  selectRequestCategoryToForm: 'Select a request category',
+  newCategory : 'New category',
+  updateCategory: 'Update category',
+  timeElapsedToCancel: 'Time elapsed to cancel',
   form:{
     etaEvent: 'Event ETA',
-    requestableType: 'Requestable Type',
-    useDefaultStatuses: 'Use Default Statuses',
-    deleteRequestWhenStatus: 'Delete Request When Status',
+    requestableType: 'Requestable type',
+    useDefaultStatuses: 'Use default statuses',
+    deleteRequestWhenStatus: 'Delete request when status',
     eventsWhenStatusL: 'Events When Status',
-    defaultStatus: 'Default Status',
-    statusToSetWhenElapsedTime: 'Status to Set When Elapsed Time'
+    defaultStatus: 'default status',
+    statusToSetWhenElapsedTime: 'Status to set when elapsed time'
   }
 }

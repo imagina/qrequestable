@@ -46,21 +46,6 @@ export default {
         },
         delete: true,
         formLeft: {
-          formId: {
-            type: 'crud',
-            props: {
-              crudType: 'select',
-              crudData: import('@imagina/qform/_crud/crudForms'),
-              crudProps: {
-                label: `${this.$tr('ui.label.form')}`,
-              },
-              config: {
-                options: {
-                  label: 'title', value: 'id'
-                }
-              },
-            },
-          },
           userId: { value: this.$store.state.quserAuth.userId },
           title: {
             value: '',
@@ -84,25 +69,6 @@ export default {
               ],
             }
           },
-
-          metaTitle: {
-            value: '',
-            isTranslatable: true,
-            type: 'input',
-            props: {
-              label: this.$tr('ui.form.metaTitle'),
-            }
-          },
-          metaDescription: {
-            value: '',
-            type: 'input',
-            isTranslatable: true,
-            props: {
-              label: this.$tr('ui.form.metaDescription'),
-              type: 'textarea',
-              rows: 3
-            }
-          },
           status: {
             value: '1',
             type: 'select',
@@ -118,7 +84,7 @@ export default {
               ],
             }
           },
-          use_default_statuses: {
+          useDefaultStatuses: {
             value: '1',
             type: 'select',
             isTranslatable: false,
@@ -146,6 +112,21 @@ export default {
           }
         },
         formRight: {
+          formId: {
+            type: 'crud',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/qform/_crud/crudForms'),
+              crudProps: {
+                label: `${this.$tr('ui.label.form')}`,
+              },
+              config: {
+                options: {
+                  label: 'title', value: 'id'
+                }
+              },
+            },
+          },
           internal: {
             value: '0',
             type: 'select',
@@ -168,7 +149,7 @@ export default {
               label: this.$tr('qrequestable.layout.form.requestableType')
             }
           },
-          default_status: {
+          defaultStatus: {
             value: 0,
             type: 'input',
             props: {
@@ -186,7 +167,7 @@ export default {
               label: this.$tr('qrequestable.layout.form.etaEvent')
             }
           },
-          status_to_set_when_elapsed_time: {
+          statusToSetWhenElapsedTime: {
             value: 0,
             type: 'input',
             props: {
@@ -204,20 +185,20 @@ export default {
               label: this.$tr('ui.label.event')
             }
           },
-          delete_request_when_status: {
+          deleteRequestWhenStatus: {
             value: {},
             type: 'json',
             props: {
               label: this.$tr('qrequestable.layout.form.deleteRequestWhenStatus')
             }
           },
-          events_when_status: {
+          eventsWhenStatus: {
             value: {},
             type: 'json',
             props: {
               label: this.$tr('qrequestable.layout.form.eventsWhenStatus')
             }
-          },
+          }
 
 
         }

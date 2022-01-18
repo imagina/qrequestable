@@ -1,19 +1,19 @@
 export default {
-  newRequest: 'Nueva Petición',
-  updateRequest: 'Actualizar Petición',
-  newStatus: 'Nuevo Estado',
-  updateStatus: 'Actualizar Estado',
+  newRequest: 'Nueva petición',
+  updateRequest: 'Actualizar petición',
+  newStatus: 'Nuevo estado',
+  updateStatus: 'Actualizar estado',
   selectRequestCategoryToForm: 'Selecciona una categoría para crear tu petición',
-  newCategory: 'Nueva Categoría',
-  updateCategory: 'Actualizar Categoría',
+  newCategory: 'Nueva categoría',
+  updateCategory: 'Actualizar categoría',
   timeElapsedToCancel: 'Tiempo para cancelar',
   form:{
     etaEvent: 'Evento ETA',
-    requestableType: 'Tipo de Solicitud',
+    requestableType: 'Tipo de solicitud',
     useDefaultStatuses: 'Usar estados por defecto',
-    deleteRequestWhenStatus: 'Eliminar Peticion Cuando el Estado es',
-    eventsWhenStatus: 'Evento Cuando el Estado es',
-    defaultStatus: 'Estado por Defecto',
+    deleteRequestWhenStatus: 'Eliminar peticion cuando el estado es',
+    eventsWhenStatus: 'Evento cuando el estado es',
+    defaultStatus: 'Estado por defecto',
     statusToSetWhenElapsedTime: 'Estado establecido cuando han pasado'
   }
 }
