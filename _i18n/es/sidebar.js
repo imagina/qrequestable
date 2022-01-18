@@ -3,4 +3,5 @@ export default {
   status: 'Estados',
   mainRequestable: 'Peticiones',
   mainRequestableCreate: 'Nueva Petición',
+  adminCategories: 'Categorias'
 }

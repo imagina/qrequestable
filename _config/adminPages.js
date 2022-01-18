@@ -14,4 +14,20 @@ export default {
       refresh: true,
     }
   },
+  categories: {
+    permission: 'requestable.categories.manage',
+    activated: true,
+    authenticated: true,
+    path: '/requestable/categories',
+    name: 'qrequestable.admin.categories',
+    crud: import('@imagina/qrequestable/_crud/categories'),
+    page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
+    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    title: 'qrequestable.sidebar.adminCategories',
+    icon: 'fas fa-layer-group',
+    subHeader: {
+      refresh: true,
+    }
+  }
+  
 }

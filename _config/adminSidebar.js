@@ -8,6 +8,7 @@ export default [
     children: [
       pages.mainqrequestable.requestables,
       pages.qrequestable.status,
+      pages.qrequestable.categories
     ]
   }
 ]

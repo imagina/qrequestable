@@ -3,4 +3,5 @@ export default {
   status: 'Status',
   mainRequestable: 'Request',
   mainRequestableCreate: 'New Request',
+  adminCategories: 'Categories'
 }
