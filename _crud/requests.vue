@@ -110,6 +110,9 @@ export default {
               name: 'viewEntity',
               icon: 'fas fa-eye',
               label: this.$tr('ui.label.show'),
+              format: (field) => {
+                return (field.row.requestableUrl) ? {} : {vIf: false}
+              },
               action: (item) => {
                 if (item.requestableUrl) this.$helper.openExternalURL(item.requestableUrl)
               }
@@ -119,6 +122,9 @@ export default {
               icon: 'fas fa-info-circle',
               color: 'info',
               tooltip: this.$tr('ui.label.information'),
+              format: (field) => {
+                return (field.row.category && field.row.category.form) ? {} : {vIf: false}
+              },
               action: (item) => {
                 this.showRequestData(item)
               }
