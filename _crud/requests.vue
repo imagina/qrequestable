@@ -1,5 +1,6 @@
 <template>
-  <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading" :title="modal.title">
+  <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading"
+                :title="modal.title" custom-position>
     <div class="box">
       <!--Tabs panel-->
       <q-tabs v-model="modal.tab" dense class="text-grey" active-color="primary" indicator-color="primary"
