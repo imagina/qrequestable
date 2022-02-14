@@ -3,12 +3,12 @@
     <div class="relative-position">
       <!--Page actions-->
       <div class="box box-auto-height q-mb-md">
-        <page-actions @refresh="init" :title="$tr('qrequestable.layout.newRequest')"/>
+        <page-actions @refresh="init" :title="$tr('requestable.cms.newRequest')"/>
       </div>
       <!--Select Category-->
       <div class="box box-auto-height q-mb-md">
         <!--Help text-->
-        <div class="q-mb-md">{{ $tr('qrequestable.layout.selectRequestCategoryToForm') }}</div>
+        <div class="q-mb-md">{{ $tr('requestable.cms.selectRequestCategoryToForm') }}</div>
         <!--Select field-->
         <dynamic-field v-model="categoryType" :field="fieldCategories"/>
       </div>
@@ -44,7 +44,7 @@ export default {
         value: null,
         type: 'select',
         props: {
-          label: this.$tr('ui.label.category'),
+          label: this.$tr('isite.cms.label.category'),
           options: this.$array.select(this.categories, {label: 'title', id: 'type'})
         }
       }

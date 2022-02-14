@@ -5,8 +5,8 @@
       <!--Tabs panel-->
       <q-tabs v-model="modal.tab" dense class="text-grey" active-color="primary" indicator-color="primary"
               align="justify" narrow-indicator>
-        <q-tab name="comments" :label="$trp('ui.label.comment')"/>
-        <q-tab name="form" :label="$tr('ui.label.form')"/>
+        <q-tab name="comments" :label="$trp('isite.cms.label.comment')"/>
+        <q-tab name="form" :label="$tr('isite.cms.label.form')"/>
       </q-tabs>
       <q-separator/>
       <!--Tabs panel-->
@@ -69,35 +69,35 @@ export default {
         permission: 'requestable.requestables',
         extraFormFields: 'requestable.crud-fields.requestable',
         create: {
-          title: this.$tr('qrequestable.layout.newRequest'),
+          title: this.$tr('requestable.cms.newRequest'),
           to: {name: 'qrequestable.main.requestables.create'}
         },
         read: {
           showAs: (config('app.mode') == 'iadmin') ? 'table' : 'grid',
           columns: [
-            {name: 'id', label: this.$tr('ui.form.id'), field: 'id', sortable: true, align: 'left'},
+            {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', sortable: true, align: 'left'},
             {
-              name: 'category', label: this.$tr('ui.form.category'),
+              name: 'category', label: this.$tr('isite.cms.form.category'),
               align: 'left', field: 'category', sortable: true,
               format: val => ((val && val.title) ? val.title : '-')
             },
             {
-              name: 'statusTitle', label: this.$tr('ui.form.status'),
+              name: 'statusTitle', label: this.$tr('isite.cms.form.status'),
               align: 'left', field: 'status', sortable: true,
               format: val => ((val && val.title) ? val.title : '-')
             },
-            {name: 'type', label: this.$tr('ui.form.type'), field: 'type', align: 'left'},
+            {name: 'type', label: this.$tr('isite.cms.form.type'), field: 'type', align: 'left'},
             {
-              name: 'creator', label: this.$tr('ui.form.createdBy'), field: 'creator',
+              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'creator',
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
-              name: 'createdAt', label: this.$tr('ui.form.createdAt'), field: 'createdAt',
+              name: 'createdAt', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt',
               format: val => val ? this.$trd(val) : '-',
               align: 'left', sortable: true
             },
             {
-              name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
+              name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'center'
             },
           ],
           requestParams: {
@@ -110,7 +110,7 @@ export default {
             {
               name: 'viewEntity',
               icon: 'fas fa-eye',
-              label: this.$tr('ui.label.show'),
+              label: this.$tr('isite.cms.label.show'),
               format: (field) => {
                 return (field.row.requestableUrl) ? {} : {vIf: false}
               },
@@ -122,7 +122,7 @@ export default {
               name: 'viewLead',
               icon: 'fas fa-info-circle',
               color: 'info',
-              tooltip: this.$tr('ui.label.information'),
+              tooltip: this.$tr('isite.cms.label.information'),
               format: (field) => {
                 return (field.row.category && field.row.category.form) ? {} : {vIf: false}
               },
@@ -133,7 +133,7 @@ export default {
           ]
         },
         update: {
-          title: this.$tr('qrequestable.layout.updateRequest'),
+          title: this.$tr('requestable.cms.updateRequest'),
           requestParams: {include: 'category'}
         },
         delete: false,
@@ -143,7 +143,7 @@ export default {
             value: null,
             type: 'select',
             props: {
-              label: `${this.$tr('ui.form.category')}`,
+              label: `${this.$tr('isite.cms.form.category')}`,
               readonly: true
             },
             loadOptions: {
@@ -154,7 +154,7 @@ export default {
             value: null,
             type: 'select',
             props: {
-              label: `${this.$tr('ui.form.status')}`
+              label: `${this.$tr('isite.cms.form.status')}`
             },
             loadOptions: {
               apiRoute: 'apiRoutes.qrequestable.statuses',
@@ -165,7 +165,7 @@ export default {
             value: null,
             type: 'input',
             props: {
-              label: `${this.$tr('ui.form.comment')}`,
+              label: `${this.$tr('isite.cms.form.comment')}`,
               type: 'textarea',
               rows: "3"
             },

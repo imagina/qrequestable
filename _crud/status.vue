@@ -15,26 +15,26 @@ export default {
         permission: 'requestable.requestables',
         extraFormFields: 'requestable.crud-fields.status',
         create: {
-          title: this.$tr('qrequestable.layout.newStatus')
+          title: this.$tr('requestable.cms.newStatus')
         },
         read: {
           showAs: (config('app.mode') == 'iadmin') ? 'table' : 'grid',
           columns: [
-            {name: 'id', label: this.$tr('ui.form.id'), field: 'id', sortable: true, align: 'left'},
-            {name: 'title', label: this.$tr('ui.form.title'), field: 'title', align: 'left', sortable: true},
-            {name: 'value', label: this.$tr('ui.label.value'), field: 'value', align: 'left', sortable: true},
+            {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', sortable: true, align: 'left'},
+            {name: 'title', label: this.$tr('isite.cms.form.title'), field: 'title', align: 'left', sortable: true},
+            {name: 'value', label: this.$tr('isite.cms.label.value'), field: 'value', align: 'left', sortable: true},
             {
-              name: 'category', label: this.$tr('ui.form.category'),
+              name: 'category', label: this.$tr('isite.cms.form.category'),
               align: 'left', field: 'category', sortable: true,
               format: val => ((val && val.title) ? val.title : '-')
             },
             {
-              name: 'createdAt', label: this.$tr('ui.form.createdAt'), field: 'createdAt',
+              name: 'createdAt', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt',
               format: val => val ? this.$trd(val) : '-',
               align: 'left', sortable: true
             },
             {
-              name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
+              name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'center'
             }
           ],
           requestParams: {
@@ -45,7 +45,7 @@ export default {
               value: null,
               type: 'select',
               props: {
-                label: `${this.$tr('ui.form.category')}`,
+                label: `${this.$tr('isite.cms.form.category')}`,
                 clearable: true
               },
               loadOptions: {
@@ -55,7 +55,7 @@ export default {
           }
         },
         update: {
-          title: this.$tr('qrequestable.layout.updateStatus'),
+          title: this.$tr('requestable.cms.updateStatus'),
           requestParams: {include: 'category'}
         },
         delete: false,
@@ -66,9 +66,9 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: `${this.$tr('ui.form.title')}*`,
+              label: `${this.$tr('isite.cms.form.title')}*`,
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
@@ -77,9 +77,9 @@ export default {
             type: 'input',
             props: {
               type: 'number',
-              label: `${this.$tr('ui.label.value')}*`,
+              label: `${this.$tr('isite.cms.label.value')}*`,
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
@@ -87,7 +87,7 @@ export default {
             value: null,
             type: 'select',
             props: {
-              label: `${this.$tr('ui.form.category')}`
+              label: `${this.$tr('isite.cms.form.category')}`
             },
             loadOptions: {
               apiRoute: 'apiRoutes.qrequestable.categories'

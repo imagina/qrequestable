@@ -8,7 +8,7 @@ export default {
     crud: import('@imagina/qrequestable/_crud/requests'),
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qrequestable.sidebar.mainRequestable',
+    title: 'requestable.cms.sidebar.mainRequestable',
     icon: 'fas fa-file-signature',
     subHeader: {
       refresh: true,
@@ -22,7 +22,7 @@ export default {
     name: 'qrequestable.main.requestables.create',
     page: () => import('@imagina/qrequestable/_pages/main/formRequest'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qrequestable.sidebar.mainRequestableCreate',
+    title: 'requestable.cms.sidebar.mainRequestableCreate',
     icon: 'fas fa-file-signature',
     subHeader: {
       refresh: true,
