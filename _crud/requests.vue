@@ -112,7 +112,7 @@ export default {
               icon: 'fas fa-eye',
               label: this.$tr('isite.cms.label.show'),
               format: (field) => {
-                return (field.row.requestableUrl) ? {} : {vIf: false}
+                return (field.requestableUrl) ? {} : {vIf: false}
               },
               action: (item) => {
                 if (item.requestableUrl) this.$helper.openExternalURL(item.requestableUrl)
