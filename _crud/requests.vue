@@ -124,13 +124,48 @@ export default {
               color: 'info',
               tooltip: this.$tr('isite.cms.label.information'),
               format: (field) => {
-                return (field.row.category && field.row.category.form) ? {} : {vIf: false}
+                return (field.category && field.category.form) ? {} : {vIf: false}
               },
               action: (item) => {
                 this.showRequestData(item)
               }
             }
-          ]
+          ],
+          filters: {
+            createdBy: {
+              type: 'select',
+              props: {
+                label: this.$tr('isite.cms.label.creator'),
+                clearable: true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.quser.users',
+                select: {label: 'fullName', id: 'id'},
+              }
+            },
+            categoryId: {
+              value: null,
+              type: 'select',
+              props: {
+                label: `${this.$tr('isite.cms.form.category')}`,
+                clearable : true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qrequestable.categories'
+              }
+            },
+            statusId: {
+              value: null,
+              type: 'select',
+              props: {
+                label: `${this.$tr('isite.cms.form.status')}`
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qrequestable.statuses',
+                requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
+              }
+            },
+          }
         },
         update: {
           title: this.$tr('requestable.cms.updateRequest'),
