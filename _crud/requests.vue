@@ -158,7 +158,8 @@ export default {
               value: null,
               type: 'select',
               props: {
-                label: `${this.$tr('isite.cms.form.status')}`
+                label: `${this.$tr('isite.cms.form.status')}`,
+                clearable : true
               },
               loadOptions: {
                 apiRoute: 'apiRoutes.qrequestable.statuses',
