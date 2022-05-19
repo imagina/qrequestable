@@ -197,6 +197,19 @@ export default {
               requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
             }
           },
+          requestedBy: {
+            value: null,
+            type: 'select',
+            permission: "requestable.requestables.edit-requested-by",
+            props: {
+              label: this.$tr('isite.cms.form.createdBy'),
+            },
+            loadOptions: {
+              apiRoute: "apiRoutes.quser.users",
+              select: {label: 'fullName', id: 'id'},
+              //filterByQuery: true
+            }
+          },
           comment: {
             value: null,
             type: 'input',
