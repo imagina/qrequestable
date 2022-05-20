@@ -5,12 +5,10 @@
       <div class="box box-auto-height q-mb-md">
         <page-actions @refresh="init" :title="$tr('requestable.cms.newRequest')"/>
       </div>
-      <!--Select Category-->
+      <!--Fields-->
       <div class="box box-auto-height q-mb-md">
-        <!--Help text-->
-        <div class="q-mb-md">{{ $tr('requestable.cms.selectRequestCategoryToForm') }}</div>
-        <!--Select field-->
-        <dynamic-field v-model="categoryType" :field="fieldCategories"/>
+        <dynamic-field v-for="(field, keyField) in formFields" :key="keyField"
+                       v-model="formData[keyField]" :field="field"/>
       </div>
       <!--Dinamic form-->
       <dynamic-form v-if="formCategory.vIf" v-bind="formCategory"
@@ -34,25 +32,46 @@ export default {
     return {
       loading: false,
       categories: [],
+      formData: {categoryType: null, requestedBy: null},
       categoryType: null
     }
   },
   computed: {
     //Return dynamic field config to select a categories
-    fieldCategories() {
+    formFields() {
+      var userData = this.$store.state.quserAuth.userData
       return {
-        value: null,
-        type: 'select',
-        props: {
-          label: this.$tr('isite.cms.label.category'),
-          options: this.$array.select(this.categories, {label: 'title', id: 'type'})
+        categoryType: {
+          value: null,
+          type: 'select',
+          help: {
+            description: this.$tr('requestable.cms.selectRequestCategoryToForm')
+          },
+          props: {
+            label: this.$tr('isite.cms.label.category'),
+            options: this.$array.select(this.categories, {label: 'title', id: 'type'})
+          }
+        },
+        requestedBy: {
+          value: userData.id,
+          type: 'select',
+          permission: "requestable.requestables.edit-requested-by",
+          props: {
+            label: this.$tr('isite.cms.form.createdBy'),
+            options: [{label: userData.fullName, value: userData.id}]
+          },
+          loadOptions: {
+            apiRoute: "apiRoutes.quser.users",
+            select: {label: 'fullName', id: 'id'},
+            //filterByQuery: true
+          }
         }
       }
     },
     //Return request selected
     selectedCategory() {
-      if (!this.categoryType) return false
-      return this.categories.find(item => item.type == this.categoryType)
+      if (!this.formData.categoryType) return false
+      return this.categories.find(item => item.type == this.formData.categoryType)
     },
     //Return category form config
     formCategory() {
@@ -62,7 +81,8 @@ export default {
         sendTo: {
           apiRoute: 'apiRoutes.qrequestable.requestables',
           extraData: {
-            type: this.categoryType
+            type: this.formData.categoryType,
+            requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId
           }
         }
       }
@@ -70,7 +90,7 @@ export default {
   },
   methods: {
     init() {
-      this.categoryType = this.$route.query.type
+      this.formData.categoryType = (this.$route.query.type || null)
       this.getData(true)
     },
     //Get data
