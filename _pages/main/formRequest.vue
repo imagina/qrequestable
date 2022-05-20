@@ -32,7 +32,7 @@ export default {
     return {
       loading: false,
       categories: [],
-      formData: {categoryType: null, createdBy: null},
+      formData: {categoryType: null, requestedBy: null},
       categoryType: null
     }
   },
@@ -82,7 +82,7 @@ export default {
           apiRoute: 'apiRoutes.qrequestable.requestables',
           extraData: {
             type: this.formData.categoryType,
-            requestedBy: this.formData.createdBy || this.$store.state.quserAuth.userId
+            requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId
           }
         }
       }

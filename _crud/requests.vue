@@ -88,7 +88,7 @@ export default {
             },
             {name: 'type', label: this.$tr('isite.cms.form.type'), field: 'type', align: 'left'},
             {
-              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'creator',
+              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'requestedBy',
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
@@ -101,7 +101,7 @@ export default {
             },
           ],
           requestParams: {
-            include: 'category,status,fields,files,comments,creator',
+            include: 'category,status,fields,files,comments,creator,requestedBy',
             filter: (config('app.mode') == 'iadmin') ? {} : {
               createdBy: this.$store.state.quserAuth.userId
             }
@@ -132,7 +132,7 @@ export default {
             }
           ],
           filters: {
-            createdBy: {
+            requestedBy: {
               type: 'select',
               props: {
                 label: this.$tr('isite.cms.label.creator'),
