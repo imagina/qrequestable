@@ -88,7 +88,11 @@ export default {
             },
             {name: 'type', label: this.$tr('isite.cms.form.type'), field: 'type', align: 'left'},
             {
-              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'requestedBy',
+              name: 'requestedBy', label: this.$tr('isite.cms.form.requestedBy'), field: 'requestedBy',
+              format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
+            },
+            {
+              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'creator',
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
@@ -102,9 +106,7 @@ export default {
           ],
           requestParams: {
             include: 'category,status,fields,files,comments,creator,requestedBy',
-            filter: (config('app.mode') == 'iadmin') ? {} : {
-              createdBy: this.$store.state.quserAuth.userId
-            }
+            filter: {}
           },
           actions: [
             {
@@ -134,6 +136,19 @@ export default {
           filters: {
             requestedBy: {
               type: 'select',
+              permission: "requestable.requestables.filter-created-by",
+              props: {
+                label: this.$tr('isite.cms.form.requestedBy'),
+                clearable: true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.quser.users',
+                select: {label: 'fullName', id: 'id'},
+              }
+            },
+            createdBy: {
+              type: 'select',
+              permission: "requestable.requestables.filter-requested-by",
               props: {
                 label: this.$tr('isite.cms.label.creator'),
                 clearable: true
@@ -148,7 +163,7 @@ export default {
               type: 'select',
               props: {
                 label: `${this.$tr('isite.cms.form.category')}`,
-                clearable : true
+                clearable: true
               },
               loadOptions: {
                 apiRoute: 'apiRoutes.qrequestable.categories'
@@ -157,9 +172,10 @@ export default {
             statusId: {
               value: null,
               type: 'select',
+              permission: "requestable.requestables.filter-status",
               props: {
                 label: `${this.$tr('isite.cms.form.status')}`,
-                clearable : true
+                clearable: true
               },
               loadOptions: {
                 apiRoute: 'apiRoutes.qrequestable.statuses',
