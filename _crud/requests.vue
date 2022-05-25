@@ -33,7 +33,9 @@
                   <file-list v-model="item.value" grid-col-class="col-12" hide-header/>
                 </q-item-label>
                 <!--value-->
-                <q-item-label v-else caption>{{ item.value }}</q-item-label>
+                <q-item-label v-else caption>
+                  {{ Array.isArray(item.value) ? item.value.join(",") : item.value }}
+                </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
