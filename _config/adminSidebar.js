@@ -7,6 +7,7 @@ export default [
     icon: 'fas fa-file-signature',
     children: [
       pages.mainqrequestable.requestables,
+      pages.qrequestable.categories,
       pages.qrequestable.status,
     ]
   }

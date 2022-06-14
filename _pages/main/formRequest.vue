@@ -57,7 +57,7 @@ export default {
           type: 'select',
           permission: "requestable.requestables.edit-requested-by",
           props: {
-            label: this.$tr('isite.cms.form.createdBy'),
+            label: this.$tr('isite.cms.form.requestedBy'),
             options: [{label: userData.fullName, value: userData.id}]
           },
           loadOptions: {
