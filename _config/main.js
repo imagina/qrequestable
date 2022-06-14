@@ -3,6 +3,7 @@ export default {
   //Entities
   entityNames: {
     requestable: 'requestable',
-    status : 'status'
+    categories: 'category',
+    status: 'status'
   }
 }
