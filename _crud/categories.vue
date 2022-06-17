@@ -15,7 +15,10 @@ export default {
         permission: 'requestable.requestables',
         extraFormFields: 'requestable.crud-fields.status',
         create: {
-          title: this.$tr('requestable.cms.newStatus')
+          title: this.$tr('requestable.cms.newCategory'),
+          method: () => {
+            console.warn(">>>>>>>>>> Creating...")
+          }
         },
         read: {
           columns: [
@@ -29,6 +32,13 @@ export default {
               align: 'left',
               sortable: true,
               format: val => val ? `${val} ${this.$trp('isite.cms.label.minute')}` : "-"
+            },
+            {
+              name: 'internal',
+              label: this.$tr('isite.cms.label.internal'),
+              field: 'internal',
+              align: 'left',
+              format: val => this.$tr('isite.cms.label.' + (val ? "yes" : "no"))
             },
             {
               name: 'statuses',
@@ -55,10 +65,12 @@ export default {
           filters: {}
         },
         update: {
-          title: this.$tr('requestable.cms.updateStatus'),
-          requestParams: {include: 'category'}
+          title: this.$tr('requestable.cms.updateCategory'),
+          method: () => {
+            console.warn(">>>>>>>>>> Updating...")
+          }
         },
-        delete: false,
+        delete: true,
         formLeft: {
           id: {value: ''},
           title: {
@@ -72,28 +84,56 @@ export default {
               ],
             },
           },
-          value: {
+          type: {
             value: '',
             type: 'input',
             props: {
-              type: 'number',
-              label: `${this.$tr('isite.cms.label.value')}*`,
+              label: `${this.$tr('isite.cms.form.type')}*`,
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
-          categoryId: {
-            value: null,
-            type: 'select',
+          timeElapsedToCancel: {
+            value: '',
+            type: 'input',
             props: {
-              label: `${this.$tr('isite.cms.form.category')}`
+              type: 'number',
+              label: `${this.$tr('requestable.cms.timeElapsedToCancel')}*`,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
             },
-            loadOptions: {
-              apiRoute: 'apiRoutes.qrequestable.categories'
+          },
+          requestableType: {
+            value: null,
+            type: 'input',
+            permission: 'requestable.categories.edit-requestable-type',
+            props: {
+              label: `${this.$tr('requestable.cms.requestableType')}`
             }
+          },
+          internal: {
+            value: 0,
+            type: 'select',
+            permission: 'requestable.categories.edit-internal',
+            props: {
+              label: `${this.$tr('isite.cms.label.internal')}`,
+              options: [
+                {label: this.$tr('isite.cms.label.yes'), value: 1},
+                {label: this.$tr('isite.cms.label.no'), value: 0},
+              ]
+            },
+          },
+          events: {
+            value: 0,
+            type: 'json',
+            permission: 'requestable.categories.edit-events',
+            props: {
+              label: `${this.$trp('isite.cms.form.event')}`,
+            },
           }
-        },
+        }
       }
     },
     //Crud info
