@@ -22,7 +22,7 @@ export default {
           columns: [
             {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', sortable: true, align: 'left'},
             {name: 'title', label: this.$tr('isite.cms.form.title'), field: 'title', align: 'left', sortable: true},
-            {name: 'value', label: this.$tr('isite.cms.label.value'), field: 'value', align: 'left', sortable: true},
+            //{name: 'value', label: this.$tr('isite.cms.label.value'), field: 'value', align: 'left', sortable: true},
             {
               name: 'category', label: this.$tr('isite.cms.form.category'),
               align: 'left', field: 'category', sortable: true,
