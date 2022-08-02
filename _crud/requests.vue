@@ -1,4 +1,5 @@
 <template>
+  <div>
   <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading"
                 :title="modal.title" custom-position>
     <div class="box">
@@ -43,6 +44,9 @@
       </q-tab-panels>
     </div>
   </master-modal>
+  
+  <kanban />
+  </div>
 </template>
 <script>
 //Components
@@ -62,8 +66,13 @@ export default {
       }
     }
   },
+  provide() {
+    return {
+      showRequestData: this.showRequestData,
+    }
+  },
   computed: {
-    crudData() {
+    /*crudData() {
       return {
         crudId: this.crudId,
         entityName: config("main.qrequestable.entityNames.requestable"),
@@ -253,7 +262,7 @@ export default {
           },
         },
       }
-    },
+    },*/
     //Crud info
     crudInfo() {
       return this.$store.state.qcrudComponent.component[this.crudId] || {}
