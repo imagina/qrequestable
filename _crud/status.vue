@@ -95,7 +95,7 @@ export default {
           },
           color: {
             value: '',
-            type: 'input',
+            type: 'inputColor',
             props: {
               label: `${this.$tr('isite.cms.label.color')}*`,
               rules: [
