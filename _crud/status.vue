@@ -92,7 +92,17 @@ export default {
             loadOptions: {
               apiRoute: 'apiRoutes.qrequestable.categories'
             }
-          }
+          },
+          color: {
+            value: '',
+            type: 'input',
+            props: {
+              label: `${this.$tr('isite.cms.label.color')}*`,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            },
+          },
         },
       }
     },
