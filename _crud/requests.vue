@@ -44,8 +44,6 @@
       </q-tab-panels>
     </div>
   </master-modal>
-  
-  <kanban />
   </div>
 </template>
 <script>
@@ -72,7 +70,7 @@ export default {
     }
   },
   computed: {
-    /*crudData() {
+    crudData() {
       return {
         crudId: this.crudId,
         entityName: config("main.qrequestable.entityNames.requestable"),
@@ -262,7 +260,7 @@ export default {
           },
         },
       }
-    },*/
+    },
     //Crud info
     crudInfo() {
       return this.$store.state.qcrudComponent.component[this.crudId] || {}
