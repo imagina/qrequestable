@@ -211,7 +211,7 @@ export default {
           title: this.$tr('requestable.cms.updateRequest'),
           requestParams: {include: 'category'}
         },
-        delete: false,
+        delete: true,
         formLeft: {
           id: {value: ''},
           categoryId: {
