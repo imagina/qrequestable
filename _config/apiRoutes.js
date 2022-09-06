@@ -8,5 +8,6 @@ export default {
   version: moduleVersion,
   requestables: `${urlBase}/requestables`,
   statuses: `${urlBase}/statuses`,
-  categories: `${urlBase}/categories`
+  categories: `${urlBase}/categories`,
+  orderStatus: `${urlBase}/statuses/order-status`,
 }

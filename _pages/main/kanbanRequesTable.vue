@@ -44,7 +44,7 @@
       </q-tab-panels>
     </div>
   </master-modal>
-  <kanban />
+  <kanban :routes="routeKanban" />
   <crud :crudData="import('@imagina/qrequestable/_crud/requests.vue')" type="onlyForm" ref="crudRequests"/>
   </div>
 </template>
@@ -70,6 +70,35 @@ export default {
     return {
       showRequestData: this.showRequestData,
       updateRequest: this.updateRequest
+    }
+  },
+  computed: {
+    routeKanban() {
+      return {
+          funnel: {
+            apiRoute: 'apiRoutes.qrequestable.categories',
+          },
+          column: {
+            filter:{
+              name: 'categoryId'
+            },
+            apiRoute: 'apiRoutes.qrequestable.statuses',
+            include: 'category', 
+          },
+          card: {
+            filter:{
+              name: 'statusId'
+            },
+            apiRoute: 'apiRoutes.qrequestable.requestables',
+            include: 'category,status,fields,files,comments,creator,requestedBy',
+          },
+          orderStatus: {
+            filter: {
+              name: 'category'
+            },
+            apiRoute: 'apiRoutes.qrequestable.orderStatus',
+          },
+      }
     }
   },
   methods: {
