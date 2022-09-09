@@ -82,21 +82,7 @@ export default {
           to: {name: 'qrequestable.main.requestables.create'}
         },
         read: {
-          listViews: ['table','grid','kanban'],
-          funnel:{
-            categories: {
-              name: 'categoryId',
-              loadOptions: {
-                apiRoute: 'apiRoutes.qrequestable.categories'
-              }
-            },
-            statuses: {
-              loadOptions: {
-                apiRoute: 'apiRoutes.qrequestable.statuses'
-              }
-            }
-          },
-          showAs: (config('app.mode') == 'iadmin') ? 'table' : 'grid',
+          showAs: 'kanban',
           columns: [
             {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', sortable: true, align: 'left'},
             {
@@ -127,6 +113,31 @@ export default {
               name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'center'
             },
           ],
+          kanban: {
+                funnel: {
+                  apiRoute: 'apiRoutes.qrequestable.categories',
+                },
+                column: {
+                  filter:{
+                    name: 'categoryId'
+                  },
+                  apiRoute: 'apiRoutes.qrequestable.statuses',
+                  include: 'category', 
+                },
+                card: {
+                  filter:{
+                    name: 'statusId'
+                  },
+                  apiRoute: 'apiRoutes.qrequestable.requestables',
+                  include: 'category,status,fields,files,comments,creator,requestedBy',
+                },
+                orderStatus: {
+                  filter: {
+                    name: 'category'
+                  },
+                  apiRoute: 'apiRoutes.qrequestable.orderStatus',
+                },
+          },
           requestParams: {
             include: 'category,status,fields,files,comments,creator,requestedBy',
             filter: {}

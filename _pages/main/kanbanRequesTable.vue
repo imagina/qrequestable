@@ -44,8 +44,8 @@
       </q-tab-panels>
     </div>
   </master-modal>
-  <kanban :routes="routeKanban" />
-  <crud :crudData="import('@imagina/qrequestable/_crud/requests.vue')" type="onlyForm" ref="crudRequests"/>
+  
+  <crud :crudData="import('@imagina/qrequestable/_crud/requests.vue')"  ref="crudRequests"/>
   </div>
 </template>
 <script>
