@@ -137,6 +137,12 @@ export default {
                   },
                   apiRoute: 'apiRoutes.qrequestable.orderStatus',
                 },
+                automation: {
+                  filter:{
+                    name: 'statusId'
+                  },
+                  apiRoute: 'apiRoutes.qrequestable.automationRule'
+                },
           },
           requestParams: {
             include: 'category,status,fields,files,comments,creator,requestedBy',
