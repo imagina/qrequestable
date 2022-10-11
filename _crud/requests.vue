@@ -201,7 +201,9 @@ export default {
             categoryId: {
               value: null,
               type: 'select',
+              quickFilter: true,
               props: {
+                selectByDefault: true,
                 label: `${this.$tr('isite.cms.form.category')}`,
                 clearable: true
               },
