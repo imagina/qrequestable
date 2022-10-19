@@ -66,6 +66,20 @@ export default {
                 requestParams: {filter: {categoryId: this.selectedCategory?.id }}
               }
         },
+        requestedBy: {
+          value: userData.id,
+          type: 'crud',
+          permission: "requestable.requestables.edit-requested-by",
+          props: {
+            crudType: 'select',
+            crudData: import('@imagina/quser/_crud/users'),
+            crudProps: {
+              label: this.$tr('isite.cms.form.requestedBy')
+            },
+            requestParams: {},
+            config: {options: {label: 'fullName', value: 'id'}},
+          }
+        },
       }
     },
     //Return request selected
@@ -82,7 +96,8 @@ export default {
           apiRoute: 'apiRoutes.qrequestable.requestables',
           extraData: {
             type: this.formData.categoryType,
-            statusId: this.formData.statusId
+            statusId: this.formData.statusId,
+            requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId
           }
         }
       }
