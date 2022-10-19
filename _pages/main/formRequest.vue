@@ -48,24 +48,24 @@ export default {
             description: this.$tr('requestable.cms.selectRequestCategoryToForm')
           },
           props: {
+            selectByDefault: true,
             label: this.$tr('isite.cms.label.category'),
             options: this.$array.select(this.categories, {label: 'title', id: 'type'})
           }
         },
-        requestedBy: {
-          value: userData.id,
-          type: 'crud',
-          permission: "requestable.requestables.edit-requested-by",
-          props: {
-            crudType: 'select',
-            crudData: import('@imagina/quser/_crud/users'),
-            crudProps: {
-              label: this.$tr('isite.cms.form.requestedBy')
-            },
-            requestParams: {},
-            config: {options: {label: 'fullName', value: 'id'}},
-          }
-        }
+        statusId: {
+              value: null,
+              type: 'select',
+              permission: "requestable.requestables.filter-status",
+              props: {
+                label: `${this.$tr('isite.cms.form.status')}`,
+                clearable: true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qrequestable.statuses',
+                requestParams: {filter: {categoryId: this.selectedCategory?.id }}
+              }
+        },
       }
     },
     //Return request selected
@@ -76,13 +76,13 @@ export default {
     //Return category form config
     formCategory() {
       return {
-        vIf: (this.selectedCategory && this.selectedCategory.form) ? true : false,
+        vIf: (this.selectedCategory && this.selectedCategory.form && this.formData.statusId) ? true : false,
         formId: this.selectedCategory?.form?.id || null,
         sendTo: {
           apiRoute: 'apiRoutes.qrequestable.requestables',
           extraData: {
             type: this.formData.categoryType,
-            requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId
+            statusId: this.formData.statusId
           }
         }
       }
