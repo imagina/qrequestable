@@ -67,18 +67,22 @@ export default {
               }
         },
         requestedBy: {
-          value: userData.id,
-          type: 'crud',
-          permission: "requestable.requestables.edit-requested-by",
-          props: {
-            crudType: 'select',
-            crudData: import('@imagina/quser/_crud/users'),
-            crudProps: {
-              label: this.$tr('isite.cms.form.requestedBy')
+            name: "requestedBy",
+            value: null,
+            type: "select",
+            permission: "requestable.requestables.edit-requested-by",
+            props: {
+              vIf: this.manageResponsiblePermissions,
+              selectByDefault: true,
+              label: this.$tr('isite.cms.form.requestedBy'),
+              clearable: true,
+              color: "primary",
             },
-            requestParams: {},
-            config: {options: {label: 'fullName', value: 'id'}},
-          }
+            loadOptions: {
+              apiRoute: "apiRoutes.quser.users",
+              select: { label: "fullName", id: "id" },
+              filterByQuery: true
+            },
         },
       }
     },
