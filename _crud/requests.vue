@@ -61,13 +61,17 @@ export default {
         loading: false,
         requestData: [],
         tab: 'comments'
-      }
+      },
+      listOfCategories: [],
     }
   },
   provide() {
     return {
       showRequestData: this.showRequestData,
     }
+  },
+  async mounted() {
+    await this.getCategories();
   },
   computed: {
     crudData() {
@@ -114,9 +118,6 @@ export default {
             },
           ],
           kanban: {
-                funnel: {
-                  apiRoute: 'apiRoutes.qrequestable.categories',
-                },
                 column: {
                   filter:{
                     name: 'categoryId'
@@ -205,10 +206,11 @@ export default {
               props: {
                 selectByDefault: true,
                 label: `${this.$tr('isite.cms.form.category')}`,
-                clearable: true
+                clearable: true,
               },
               loadOptions: {
-                apiRoute: 'apiRoutes.qrequestable.categories'
+                apiRoute: 'apiRoutes.qrequestable.categories',
+                requestParams: {filter: {internal: false}}
               }
             },
             statusId: {
@@ -341,6 +343,15 @@ export default {
     //Reset Modal
     resetModal() {
       this.modal = {show: false, request: false}
+    },
+    async getCategories() {
+      try {
+        const response = await this.$crud.index('apiRoutes.qrequestable.categories');
+        this.listOfCategories = response.data;
+      } catch (error) {
+        this.listOfCategories = [];
+        console.log(error);
+      }
     }
   }
 }

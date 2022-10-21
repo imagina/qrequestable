@@ -48,9 +48,23 @@ export default {
             description: this.$tr('requestable.cms.selectRequestCategoryToForm')
           },
           props: {
+            selectByDefault: true,
             label: this.$tr('isite.cms.label.category'),
             options: this.$array.select(this.categories, {label: 'title', id: 'type'})
           }
+        },
+        statusId: {
+              value: null,
+              type: 'select',
+              permission: "requestable.requestables.filter-status",
+              props: {
+                label: `${this.$tr('isite.cms.form.status')}`,
+                clearable: true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qrequestable.statuses',
+                requestParams: {filter: {categoryId: this.selectedCategory?.id }}
+              }
         },
         requestedBy: {
           value: userData.id,
@@ -65,7 +79,7 @@ export default {
             requestParams: {},
             config: {options: {label: 'fullName', value: 'id'}},
           }
-        }
+        },
       }
     },
     //Return request selected
@@ -76,12 +90,13 @@ export default {
     //Return category form config
     formCategory() {
       return {
-        vIf: (this.selectedCategory && this.selectedCategory.form) ? true : false,
+        vIf: (this.selectedCategory && this.selectedCategory.form && this.formData.statusId) ? true : false,
         formId: this.selectedCategory?.form?.id || null,
         sendTo: {
           apiRoute: 'apiRoutes.qrequestable.requestables',
           extraData: {
             type: this.formData.categoryType,
+            statusId: this.formData.statusId,
             requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId
           }
         }
