@@ -10,5 +10,6 @@ export default {
   statuses: `${urlBase}/statuses`,
   categories: `${urlBase}/categories`,
   orderStatus: `${urlBase}/statuses/order-status`,
-  automationRule: `${urlBase}/automation-rule`
+  automationRule: `${urlBase}/automation-rule`,
+  comments: `${urlBase}/comments`
 }
