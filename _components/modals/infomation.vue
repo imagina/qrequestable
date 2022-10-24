@@ -145,23 +145,6 @@ export default {
     }
   },
   computed: {
-    getData() {
-      const params = { 
-          commentableType: 'Modules\\Requestable\\Entities\\Requestable',
-          commentableId: 597, // id ?
-        };
-      this.$crud.get(`apiRoutes.comments`, params).then(response => {
-        console.log(response);
-        //this.modal.comments = response;
-      
-  
-        this.loading = false;
-      }).catch(error => {
-        this.loading = false;
-        this.$alert.danger({ message: 'error no actualizo' });
-        console.log(error);
-      })
-    },
     routeKanban() {
       return {
           funnel: {
@@ -194,6 +177,7 @@ export default {
     //Fields to show
     async showRequestData(requestData) {
       console.log(requestData),
+      this.getData(requestData.id);
       //Set modal data
       this.modal = {
         title: requestData.category.title,
@@ -407,6 +391,26 @@ export default {
           
       
         }).onCancel(() => {})
+    },
+    getData(commentableId) {
+      const params = { 
+        filter: {  
+          commentableType: 'Modules\\Requestable\\Entities\\Requestable',
+          commentableId,
+        },
+        include: 'user',
+      };
+      this.$crud.get('apiRoutes.qrequestable.comments', params).then(response => {
+        console.log(response);
+        //this.modal.comments = response;
+      
+  
+        this.loading = false;
+      }).catch(error => {
+        this.loading = false;
+        this.$alert.danger({ message: 'error no actualizo' });
+        console.log(error);
+      })
     },
   }
 }
