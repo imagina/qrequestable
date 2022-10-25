@@ -49,7 +49,7 @@
                             <img :src="dataBase.avatar">
                         </q-avatar>
                     </q-item-section>
-                    <q-item-section v-if="!dataBase.active" class="tw-mr-4">
+                    <q-item-section v-if="!dataBase.active" class="tw-mr-4 tw-cursor-pointer">
                         <q-input outlined dense placeholder="Escriba un comentario" @click="activeText()"/>
                     </q-item-section>
                     <q-item-section class="bg-grey-1 shadow-1 tw-p-2" v-else>
@@ -59,42 +59,37 @@
                                 <q-btn :loading="loading" :disable="dataBase.text==''" @click="addComment()" rounded size="md" label="Guardar" color="primary" no-caps  />
                                 <q-btn flat size="md" @click="cancelText()"  padding="4px 4px" icon="close" color="primary"  />
                             </div>
-                            <div class="tw-mt-2 tw-space-x-1">
-                                <q-btn flat size="md" padding="4px 4px" icon="attach_file" color="primary"  />
-                            </div>
                         </div>
                     </q-item-section>
                 </q-item>
                 <q-item>
                     <q-item-section>
                         <q-timeline class="grey-4">
-                            <q-timeline-entry v-for="(item, index, itemKey) in modal.comments" :key="itemKey" :avatar="dataBase.avatar">
+                            <q-timeline-entry v-for="(item, index, itemKey) in modal.comments" :key="itemKey" :avatar="item.userProfile.mainImage">
                               <h4>
-                                  <strong>{{ item.fullName }}</strong> 
+                                  <strong>{{ item.userProfile.fullName }}</strong> 
                                   <small> 
-                                      {{item.createdAt}} 
+                                      {{formatDate(item.updatedAt)}} 
                                       <span v-if="item.createdAt !== item.updatedAt"> (editado)</span> 
                                   </small>
                               </h4> 
                               <q-editor v-model="item.comment" min-height="5rem" v-if="item.active" />
                               <div v-else>
                                   <q-card flat bordered>
-                                      <q-card-section class="tw-py-2" v-html="item.comment" />
+                                      <q-card-section class="tw-py-2 tw-cursor-pointer" v-html="item.comment" @click="activeEdit(item.id)"/>
                                   </q-card>
                                   <p class="tw-mt-2 tw-text-xs">
-                                      <a class="link-edit tw-cursor-pointer" @click="activeEdit(item.id)">Editar</a> - 
-                                      <a class="link-delete tw-cursor-pointer" @click="deleteComment(item.id)">Eliminar</a>
+                                      <q-btn flat size="xs" @click="deleteComment(item.id)" padding="4px 4px" icon="fa-solid fa-trash-can" color="primary">
+                                        <q-tooltip>Eliminar</q-tooltip>
+                                      </q-btn>
                                   </p>
                               </div>
                               <div class="flex justify-between" v-if="item.active" >
                                   <div class="tw-mt-2 tw-space-x-2">
-                                      <q-btn :loading="loading" @click="updateComment('edit',item.id)" rounded size="md" label="Editar" color="primary" no-caps  />
-                                      <q-btn flat size="md" @click="updateComment('cancel',item.id)" padding="4px 4px" icon="fa-solid fa-rotate-left" color="primary">
+                                      <q-btn :disable="item.comment=='' || item.comment==item.textEdit" :loading="item.loading" @click="updateComment('edit',item.id)" rounded size="md" label="Actualizar" color="primary" no-caps  />
+                                      <q-btn flat size="md" @click="updateComment('cancel',item.id)" padding="4px 4px" icon="close" color="primary">
                                         <q-tooltip>Deshacer</q-tooltip>
                                       </q-btn>
-                                  </div>
-                                  <div class="tw-mt-2 tw-space-x-1">
-                                    <q-btn flat size="md" padding="4px 4px" icon="attach_file" color="primary"  />
                                   </div>
                               </div>
                             </q-timeline-entry>
@@ -115,7 +110,6 @@
 <script>
 //Components
 import fileList from '@imagina/qsite/_components/master/fileList';
-import baseService from '@imagina/qcrud/_services/baseService.js';
 
 export default {
   components: {fileList},
@@ -123,6 +117,8 @@ export default {
     return {
       crudId: this.$uid(),
       loading: false,
+      commentableId: null,
+      route: 'apiRoutes.qrequestable.comments',
       modal: {
         title: null,
         show: false,
@@ -134,7 +130,7 @@ export default {
         textEdit:'',
         active: false,
         user: '',
-        avatar: 'http://imgfz.com/i/4DZUkNA.png',
+        avatar: 'https://dev-gestionhc.ozonohosting.com/modules/iprofile/img/default.jpg',
       }
     }
   },
@@ -174,9 +170,13 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      return this.$moment(date).format("DD MMM YYYY, Hora HH:mm")
+    },
     //Fields to show
     async showRequestData(requestData) {
-      console.log(requestData),
+      console.log(requestData);
+      this.commentableId = requestData.id;
       this.getData(requestData.id);
       //Set modal data
       this.modal = {
@@ -186,11 +186,6 @@ export default {
         requestData: [],
         comments: []
       }
-
-      // user session falta el avatar
-      this.dataBase.user = requestData?.title || 'Nameless'
-      
-      this.addActiveComments(requestData);
 
       //Get form data
       let form = requestData.category?.form || false
@@ -239,22 +234,28 @@ export default {
     updateRequest(itemId) {
         this.$refs.crudRequests.update({id: itemId})
     },
-    // add the active variable
-    addActiveComments(requestData){
-      this.modal.comments = requestData.comments.map(item =>({
-        ...item,
-        active: false,
-      }))
-      
-      console.log(this.modal.comments);
-    },
     activeText() {
       this.dataBase.active = true;
       this.dataBase.text = '';
     },
     cancelText() {
-      this.dataBase.active = false;
-      this.dataBase.text = '';
+      if(this.dataBase.text.length > 0) {
+      this.$q.dialog({
+          ok: 'Si',
+          message: "quiere deshacer el comentario",
+          cancel: true,
+          persistent: true
+        }).onOk(async() => {
+
+          this.dataBase.active = false;
+          this.dataBase.text = '';
+
+        }).onCancel(() => {})
+      }
+      else {
+        this.dataBase.active = false;
+      }
+      
     },
     updateComment(type, id) {
       try {
@@ -266,11 +267,28 @@ export default {
           }
 
           if(type=="edit"){
-            if (comment.comment !== this.dataBase.textEdit){
-              this.editComment(id,comment);
-            } else {
-              this.cancelComment(comment);
-            }
+            
+              if (comment.comment !== comment.textEdit){
+                if(comment.comment.length>5) {
+
+
+                  this.$q.dialog({
+                    ok: 'Si',
+                    message: "seguro que desea actualizar el comentario",
+                    cancel: true,
+                    persistent: true
+                  }).onOk(async() => {
+
+                    this.editComment(id,comment);
+
+                  }).onCancel(() => {})
+
+                } else {
+                  this.$alert.warning({ message: 'El texto deba ser mayor a 5 caracteres' });
+                }
+              } else {
+                this.cancelComment(comment);
+              }
           }
         
         }
@@ -279,42 +297,42 @@ export default {
       }
     },
     cancelComment(comment) {
-      comment.comment = this.dataBase.textEdit;
-      comment.active = false;
+      if (comment.comment !== comment.textEdit){
+      this.$q.dialog({
+          ok: 'Si',
+          message: "quiere deshacer los cambios",
+          cancel: true,
+          persistent: true
+        }).onOk(async() => {
+
+          comment.comment = comment.textEdit;
+          comment.active = false;
+
+        }).onCancel(() => {})
+      } else {
+        comment.active = false;
+      }
+      
     },
     editComment(id,comment) {
-      this.loading = true;
-
-      /*try {
-          const data = { 
-            comment: comment.comment 
-          };
-          baseService.put(`apiRoutes.comments/${id}`, data);
-          this.loading = false;
-      } catch (error) {
-        this.$alert.error({ message: 'No se pudo realizar la actualizacion' });
-        console.log(error);
-        this.loading = false;
-      }*/
-   
-      this.$crud.put(`apiRoutes.comments/${id}`, comment.comment).then(response => {
+      comment.loading = true;
+      this.$crud.put(`${this.route}/${id}`, comment.comment).then(response => {
         console.log(response);
-        //comment.updatedAt = this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+        //comment.updatedAt = this.$moment().format('DD MMM YYYY, Hora HH:mm'),
         //comment.active = false;
-        this.loading = false;
+        comment.loading = false;
       }).catch(error => {
-        this.loading = false;
-        this.$alert.danger({ message: 'error no actualizo' });
+        comment.loading = false;
         console.log(error);
+        this.$alert.error({ message: 'error no actualizo' });
+        
       })
-
-
     },
     activeEdit(id) {
       try {
         const comment = this.modal.comments.find(item => item.id === id);
         if (comment) {
-          this.dataBase.textEdit = comment.comment;
+          comment.textEdit = comment.comment;
           comment.active = true;
         }
       } catch (error) {
@@ -322,53 +340,30 @@ export default {
       }
     },
     addComment() {
-
-      /*let requestParams = this.dataBase.text;
-      this.$crud.post('apiRoutes.comments', requestParams).then(response => {
-        let comment = { response.data, active: false };
-        this.modal.comments.unshift(comment);
-        //this.loading = false
-      }).catch(error => {
-          console.log(error);
-        //this.loading = false
-      })
-      
-       try {
-        const params = { 
+      if(this.dataBase.text.length>5) {
+        this.modal.loading = true;
+        const params = {  
           commentableType: 'Modules\\Requestable\\Entities\\Requestable',
-          commentableId: 597,
-          comment: comment.comment 
+          commentableId: this.commentableId,
+          comment: this.dataBase.text
         };
-        baseService.create(`apiRoutes.comments`, params);
-    } catch (error) {
-        console.log(error);
-    }
+        this.$crud.create(this.route, params).then(response => {
+          console.log(response.data);
+          const data = response.data;
+         // this.modal.comments.unshift({ ...data, active: false, loading: false });
+          this.getData(this.commentableId);
+          this.modal.loading = false;
+          this.$alert.info({ message: 'Registro exitoso' });
+        }).catch(error => {
+            console.log(error);
+            this.modal.loading = false;
+            this.$alert.error({ message: 'No se puedo guardar su comentario' });
+        })
       
-      
-      */
-      this.loading = true;
-      try {
-        this.modal.comments.unshift({
-          id: 345345,
-          fullName: this.dataBase.user, 
-          avatar: this.dataBase.avatar, 
-          createdAt: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-          updatedAt: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-          comment: this.dataBase.text,
-          active: false,
-        });
-        this.loading = false;
-        this.$alert.info({ message: 'Registro exitoso' });
-
-      } catch (error) {
-        this.loading = false;
-        console.log(error);
-        this.$alert.error({ message: 'No se puedo guardar su comentario' });
+        this.cancelText();
+      } else {
+        this.$alert.warning({ message: 'El texto deba ser mayor a 5 caracteres' });
       }
-
-      
-      
-      this.cancelText();
     },
     async deleteComment(id) {
       this.$q.dialog({
@@ -377,19 +372,18 @@ export default {
           cancel: true,
           persistent: true
         }).onOk(async() => {
-          this.loading = true;
-          try {
-            this.modal.comments = this.modal.comments.filter(item => item.id !== id);
-            this.$alert.info({ message: this.$tr('isite.cms.message.recordDeleted') });
-            this.loading = false;
-          } catch (error) {
-            this.$alert.error({ message: 'No se pudo eliminar' });
-            console.log(error);
-            this.loading = false;
-          }
-       
-          
-      
+
+          this.modal.loading = true;
+          this.$crud.delete(this.route,id).then(response => {
+              console.log(response.data);
+              this.modal.comments = this.modal.comments.filter(item => item.id !== id);
+              this.$alert.info({ message: this.$tr('isite.cms.message.recordDeleted') });
+              this.modal.loading = false;
+          }).catch(error => {
+              console.log(error);
+              this.modal.loading = false;
+              this.$alert.error({ message: 'No se pudo eliminar' });
+          })
         }).onCancel(() => {})
     },
     getData(commentableId) {
@@ -398,17 +392,22 @@ export default {
           commentableType: 'Modules\\Requestable\\Entities\\Requestable',
           commentableId,
         },
-        include: 'user',
+        include: 'userProfile',
       };
-      this.$crud.get('apiRoutes.qrequestable.comments', params).then(response => {
-        console.log(response);
-        //this.modal.comments = response;
-      
-  
+      this.$crud.get(this.route, params).then(response => {
+        console.log(response.data);
+        const data = response.data;
+        this.modal.comments = data.map(item =>({
+          ...item,
+          active: false,
+          loading: false,
+          textEdit: '',
+        }))
+        console.log(this.modal.comments);
         this.loading = false;
       }).catch(error => {
         this.loading = false;
-        this.$alert.danger({ message: 'error no actualizo' });
+        this.$alert.error({ message: 'error no actualizo' });
         console.log(error);
       })
     },
@@ -421,12 +420,6 @@ export default {
   .list-comments .q-timeline__title,
   .list-comments .q-btn-dropdown__arrow {
     @apply tw-hidden;
-  }
-  .list-comments .link-edit:hover {
-      color: var(--q-color-primary);
-  }
-  .list-comments .link-delete:hover {
-      color: var(--q-color-negative);
   }
   .list-comments .q-timeline__dot-img {
     background: #e0e0e0;
