@@ -34,7 +34,6 @@
 
         </div>
         <div class="col-12 col-md-8">
-
           <q-card class="no-shadow tw-rounded-xl tw-border">
             <!--
             <q-card-section>
@@ -50,13 +49,18 @@
                         </q-avatar>
                     </q-item-section>
                     <q-item-section v-if="!dataBase.active" class="tw-mr-4 tw-cursor-pointer">
-                        <q-input outlined dense placeholder="Escriba un comentario" @click="activeText()"/>
+                      <q-card flat bordered>
+                        <q-tooltip>{{$tr(`isite.cms.label.edit`)}}</q-tooltip>
+                        <q-card-section class="tw-py-2 tw-cursor-pointer text-grey-6" v-html="textPlaceholder" @click="activeText()" />
+                        
+                      </q-card>
                     </q-item-section>
                     <q-item-section class="bg-grey-1 shadow-1 tw-p-2" v-else>
-                        <q-editor v-model="dataBase.text" min-height="5rem"  />
+                        <!-- <q-editor v-model="dataBase.text" min-height="5rem"  />-->
+                        <CKEditor v-model="dataBase.text" :config="editorConfig"></CKEditor>
                         <div class="flex justify-between">
                             <div class="tw-mt-2 tw-space-x-2">
-                                <q-btn :loading="loading" :disable="dataBase.text==''" @click="addComment()" rounded size="md" label="Guardar" color="primary" no-caps  />
+                                <q-btn :loading="loading" :disable="dataBase.text==''" @click="addComment()" rounded size="md" :label="$tr(`isite.cms.label.save`)" color="primary" no-caps  />
                                 <q-btn flat size="md" @click="cancelText()"  padding="4px 4px" icon="close" color="primary"  />
                             </div>
                         </div>
@@ -70,25 +74,27 @@
                                   <strong>{{ item.userProfile.fullName }}</strong> 
                                   <small> 
                                       {{formatDate(item.updatedAt)}} 
-                                      <span v-if="item.createdAt !== item.updatedAt"> (editado)</span> 
+                                      <span v-if="item.createdAt !== item.updatedAt"> ({{$tr(`isite.cms.label.edited`)}})</span> 
                                   </small>
                               </h4> 
-                              <q-editor v-model="item.comment" min-height="5rem" v-if="item.active" />
+                              <!-- <q-editor v-model="item.comment" min-height="5rem" v-if="item.active" />-->
+                              <CKEditor v-model="item.comment" v-if="item.active"></CKEditor>
                               <div v-else>
                                   <q-card flat bordered>
-                                      <q-card-section class="tw-py-2 tw-cursor-pointer" v-html="item.comment" @click="activeEdit(item.id)"/>
+                                      <q-card-section class="tw-py-2 tw-cursor-pointer" v-html="item.comment" @click="activeEdit(item.id)" />
+                                      <q-tooltip>Click aqui</q-tooltip>  
                                   </q-card>
                                   <p class="tw-mt-2 tw-text-xs">
                                       <q-btn flat size="xs" @click="deleteComment(item.id)" padding="4px 4px" icon="fa-solid fa-trash-can" color="primary">
-                                        <q-tooltip>Eliminar</q-tooltip>
+                                        <q-tooltip>{{$tr(`isite.cms.label.delete`)}}</q-tooltip>
                                       </q-btn>
                                   </p>
                               </div>
                               <div class="flex justify-between" v-if="item.active" >
                                   <div class="tw-mt-2 tw-space-x-2">
-                                      <q-btn :disable="item.comment=='' || item.comment==item.textEdit" :loading="item.loading" @click="updateComment('edit',item.id)" rounded size="md" label="Actualizar" color="primary" no-caps  />
+                                      <q-btn :disable="item.comment=='' || item.comment==item.textEdit" :loading="item.loading" @click="updateComment('edit',item.id)" rounded size="md" :label="$tr(`isite.cms.label.update`)" color="primary" no-caps  />
                                       <q-btn flat size="md" @click="updateComment('cancel',item.id)" padding="4px 4px" icon="close" color="primary">
-                                        <q-tooltip>Deshacer</q-tooltip>
+                                        <q-tooltip>Deshacer {{$tr(`isite.cms.label.delete`)}}</q-tooltip>
                                       </q-btn>
                                   </div>
                               </div>
@@ -104,21 +110,24 @@
       </div>
     </div>
     </master-modal>
-    <crud :crudData="import('@imagina/qrequestable/_crud/requests.vue')"  ref="crudRequests"/>
   </div>
 </template>
 <script>
 //Components
 import fileList from '@imagina/qsite/_components/master/fileList';
+import CKEditor from '@imagina/qsite/_components/master/ckEditor';
 
 export default {
-  components: {fileList},
+  components: {fileList, CKEditor},
   data() {
     return {
-      crudId: this.$uid(),
       loading: false,
       commentableId: null,
       route: 'apiRoutes.qrequestable.comments',
+      textPlaceholder: 'Escriba un comentario...',
+      editorConfig: {
+        height: 100,
+      },
       modal: {
         title: null,
         show: false,
@@ -141,7 +150,7 @@ export default {
     }
   },
   computed: {
-    routeKanban() {
+    /*routeKanban() {
       return {
           funnel: {
             apiRoute: 'apiRoutes.qrequestable.categories',
@@ -167,17 +176,23 @@ export default {
             apiRoute: 'apiRoutes.qrequestable.orderStatus',
           },
       }
-    }
+    }*/
+  },
+  beforeDestroy() {
+    console.log('Antes de cerrar.');
+  },
+  beforeCreate() {
+    console.log('Antes de iniciar.')
   },
   methods: {
     formatDate(date) {
-      return this.$moment(date).format("DD MMM YYYY, Hora HH:mm")
+      return this.$moment(date).format("MMMM Do YYYY, h:mm:ss a")
     },
     //Fields to show
     async showRequestData(requestData) {
       console.log(requestData);
       this.commentableId = requestData.id;
-      this.getData(requestData.id);
+      this.getCommentsList(requestData.id);
       //Set modal data
       this.modal = {
         title: requestData.category.title,
@@ -246,43 +261,32 @@ export default {
           cancel: true,
           persistent: true
         }).onOk(async() => {
-
           this.dataBase.active = false;
           this.dataBase.text = '';
-
         }).onCancel(() => {})
       }
       else {
         this.dataBase.active = false;
       }
-      
     },
     updateComment(type, id) {
       try {
         const comment = this.modal.comments.find(item => item.id === id);
         if (comment) {
-
           if(type=="cancel"){
             this.cancelComment(comment);
           }
-
           if(type=="edit"){
-            
               if (comment.comment !== comment.textEdit){
                 if(comment.comment.length>5) {
-
-
                   this.$q.dialog({
                     ok: 'Si',
                     message: "seguro que desea actualizar el comentario",
                     cancel: true,
                     persistent: true
                   }).onOk(async() => {
-
                     this.editComment(id,comment);
-
                   }).onCancel(() => {})
-
                 } else {
                   this.$alert.warning({ message: 'El texto deba ser mayor a 5 caracteres' });
                 }
@@ -290,7 +294,6 @@ export default {
                 this.cancelComment(comment);
               }
           }
-        
         }
       } catch (error) {
         console.log(error);
@@ -300,32 +303,28 @@ export default {
       if (comment.comment !== comment.textEdit){
       this.$q.dialog({
           ok: 'Si',
-          message: "quiere deshacer los cambios",
+          message: this.$tr(`requestable.cms.message.undoComment`),
           cancel: true,
           persistent: true
         }).onOk(async() => {
-
           comment.comment = comment.textEdit;
           comment.active = false;
-
         }).onCancel(() => {})
       } else {
         comment.active = false;
       }
-      
     },
     editComment(id,comment) {
       comment.loading = true;
       this.$crud.put(`${this.route}/${id}`, comment.comment).then(response => {
         console.log(response);
-        //comment.updatedAt = this.$moment().format('DD MMM YYYY, Hora HH:mm'),
+        //comment.updatedAt = this.$moment().format('MMMM Do YYYY, h:mm:ss a'),
         //comment.active = false;
         comment.loading = false;
       }).catch(error => {
         comment.loading = false;
         console.log(error);
         this.$alert.error({ message: 'error no actualizo' });
-        
       })
     },
     activeEdit(id) {
@@ -351,16 +350,16 @@ export default {
           console.log(response.data);
           const data = response.data;
          // this.modal.comments.unshift({ ...data, active: false, loading: false });
-          this.getData(this.commentableId);
+          this.getCommentsList(this.commentableId);
           this.modal.loading = false;
+          this.dataBase.active = false;
+          this.dataBase.text = '';
           this.$alert.info({ message: 'Registro exitoso' });
         }).catch(error => {
             console.log(error);
             this.modal.loading = false;
             this.$alert.error({ message: 'No se puedo guardar su comentario' });
         })
-      
-        this.cancelText();
       } else {
         this.$alert.warning({ message: 'El texto deba ser mayor a 5 caracteres' });
       }
@@ -386,7 +385,7 @@ export default {
           })
         }).onCancel(() => {})
     },
-    getData(commentableId) {
+    getCommentsList(commentableId) {
       const params = { 
         filter: {  
           commentableType: 'Modules\\Requestable\\Entities\\Requestable',

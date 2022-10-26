@@ -1,16 +1,16 @@
 <template>
   <div>
-    <infomation/>
+    <crud :crudData="import('@imagina/qrequestable/_crud/requests.vue')"  ref="crudRequests"/> 
   </div>
 </template>
 <script>
 //Components
-import infomation from '@imagina/qrequestable/_components/modals/infomation.vue'
 export default {
-  components: {
-    infomation
-  },
+  components: {},
   created() {
+    
+  },
+  computed: {
     
   }
 }

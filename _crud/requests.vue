@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
   <master-modal v-model="modal.show" @hide="resetModal()" :loading="modal.loading"
                 :title="modal.title" custom-position>
     <div class="box">
@@ -49,6 +49,7 @@
 <script>
 //Components
 import fileList from '@imagina/qsite/_components/master/fileList'
+import infomation from '@imagina/qrequestable/_components/modals/infomation'
 
 export default {
   components: {fileList},
