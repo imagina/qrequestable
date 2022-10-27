@@ -19,14 +19,9 @@
           </div>
           <div
             class="col-12 col-md-8 col-lg-7"
-            v-if="permisionComments.create || permisionComments.index"
+            v-if="permisionComments.index"
           >
             <q-card class="box tw-rounded-xl tw-h-full">
-              <!--
-            <q-card-section>
-              <div class="tw-text-sm tw-font-bold">comentarios</div>
-            </q-card-section>
-            <q-separator/>-->
               <q-card-section>
                 <q-list dense class="list-comments">
                   <q-item
@@ -53,7 +48,6 @@
                       </q-card>
                     </q-item-section>
                     <q-item-section class="bg-grey-1 shadow-1 tw-p-2" v-else>
-                      <!-- <q-editor v-model="dataBase.text" min-height="5rem"  />-->
                       <CKEditor
                         v-model="dataBase.text"
                         :config="editorConfig"
@@ -101,7 +95,6 @@
                               >
                             </small>
                           </h4>
-                          <!-- <q-editor v-model="item.comment" min-height="5rem" v-if="item.active" />-->
                           <CKEditor
                             v-model="item.comment"
                             v-if="item.active"
@@ -261,8 +254,6 @@ export default {
 
       //Get form data
       let form = requestData.category?.form || false;
-
-      
       //Merge values
       if (form) {
         this.formId = form.id;
@@ -504,9 +495,7 @@ export default {
           requestedBy: this.requestedBy || this.$store.state.quserAuth.userId
         };
         await this.$crud.update('apiRoutes.qrequestable.requestables', this.requestableId, form);
-        if(this.$refs.crudRequests.$refs.crudIndex.$refs.kanban) {
-          this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.addCard(this.statusId);
-        }
+        await this.$emit('kanbanRefresh', this.statusId);
         this.modal.show = false;
         this.form = {};
         this.modal.loading = false;

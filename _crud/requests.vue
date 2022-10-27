@@ -1,15 +1,11 @@
-<template>
-  <div>    
-    <infomation ref="modalInfortion"></infomation>
-  </div>
-</template>
+<template></template>
 <script>
 //Components
 import fileList from '@imagina/qsite/_components/master/fileList'
-import infomation from '@imagina/qrequestable/_components/modals/infomation'
+
 
 export default {
-  components: {fileList, infomation},
+  components: {fileList},
   data() {
     return {
       crudId: this.$uid(),
@@ -95,31 +91,6 @@ export default {
             include: 'category,status,fields,files,comments,creator,requestedBy',
             filter: {}
           },
-          actions: [
-            {
-              name: 'viewEntity',
-              icon: 'fas fa-eye',
-              label: this.$tr('isite.cms.label.show'),
-              format: (field) => {
-                return (field.requestableUrl) ? {} : {vIf: false}
-              },
-              action: (item) => {
-                if (item.requestableUrl) this.$helper.openExternalURL(item.requestableUrl)
-              }
-            },
-            {
-              name: 'viewLead',
-              icon: 'fas fa-info-circle',
-              color: 'info',
-              tooltip: this.$tr('isite.cms.label.information'),
-              format: (field) => {
-                return (field.category && field.category.form) ? {} : {vIf: false}
-              },
-              action: (item) => {
-                this.showModal(item)
-              }
-            }
-          ],
           filters: {
             requestedBy: {
               type: 'select',
@@ -234,10 +205,6 @@ export default {
     }
   },
   methods: {
-    //Fields to show
-    async showModal(requestData) {
-      this.$refs.modalInfortion.showRequestData(requestData);
-    },
     //Reset Modal
     async getCategories() {
       try {
