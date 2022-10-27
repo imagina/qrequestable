@@ -15,10 +15,7 @@ export default {
         permission: 'requestable.requestables',
         extraFormFields: 'requestable.crud-fields.status',
         create: {
-          title: this.$tr('requestable.cms.newCategory'),
-          method: () => {
-            console.warn(">>>>>>>>>> Creating...")
-          }
+          title: this.$tr('requestable.cms.newCategory')
         },
         read: {
           columns: [
@@ -66,9 +63,6 @@ export default {
         },
         update: {
           title: this.$tr('requestable.cms.updateCategory'),
-          method: () => {
-            console.warn(">>>>>>>>>> Updating...")
-          }
         },
         delete: true,
         formLeft: {
