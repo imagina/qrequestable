@@ -4,7 +4,7 @@ const pages = config('pages') // Get Pages from config
 export default [
   {
     title: 'requestable.cms.sidebar.adminGroup',
-    icon: 'fas fa-file-signature',
+    icon: 'fal fa-file-signature',
     children: [
       pages.mainqrequestable.requestables,
       pages.qrequestable.categories,

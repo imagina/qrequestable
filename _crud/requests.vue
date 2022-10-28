@@ -92,7 +92,7 @@ export default {
             filter: {}
           },
           filters: {
-            requestedBy: {
+            /*requestedBy: {
               type: 'select',
               permission: "requestable.requestables.filter-created-by",
               props: {
@@ -103,8 +103,8 @@ export default {
                 apiRoute: 'apiRoutes.quser.users',
                 select: {label: 'fullName', id: 'id'},
               }
-            },
-            createdBy: {
+            },*/
+            /*createdBy: {
               type: 'select',
               permission: "requestable.requestables.filter-requested-by",
               props: {
@@ -115,7 +115,7 @@ export default {
                 apiRoute: 'apiRoutes.quser.users',
                 select: {label: 'fullName', id: 'id'},
               }
-            },
+            },*/
             categoryId: {
               value: null,
               type: 'select',
@@ -130,7 +130,7 @@ export default {
                 requestParams: {filter: {internal: false}}
               }
             },
-            statusId: {
+            /*statusId: {
               value: null,
               type: 'select',
               permission: "requestable.requestables.filter-status",
@@ -142,13 +142,10 @@ export default {
                 apiRoute: 'apiRoutes.qrequestable.statuses',
                 requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
               }
-            },
+            },*/
           }
         },
-        update: {
-          title: this.$tr('requestable.cms.updateRequest'),
-          requestParams: {include: 'category'}
-        },
+        update: false,
         delete: false,
         formLeft: {
           id: {value: ''},
@@ -187,7 +184,7 @@ export default {
               //filterByQuery: true
             }
           },
-          comment: {
+          /*comment: {
             value: null,
             type: 'input',
             props: {
@@ -195,7 +192,7 @@ export default {
               type: 'textarea',
               rows: "3"
             },
-          },
+          },*/
         },
       }
     },
