@@ -55,7 +55,7 @@
                       <div class="flex justify-between">
                         <div class="tw-mt-2 tw-space-x-2">
                           <q-btn
-                            :loading="loading"
+                            :loading="dataBase.loading"
                             :disable="dataBase.text == ''"
                             @click="addComment()"
                             rounded
@@ -156,11 +156,6 @@
                       </q-timeline>
                     </q-item-section>
                   </q-item>
-                  <q-item v-else>
-                    <q-item-section class="tw-mt-5">
-                      No tiene permisos para visualizar los comentarios
-                    </q-item-section>
-                  </q-item>
                 </q-list>
               </q-card-section>
             </q-card>
@@ -179,6 +174,7 @@ const commentModel = {
   textEdit: "",
   active: false,
   user: "",
+  loading: false,
   avatar:
     "https://dev-gestionhc.ozonohosting.com/modules/iprofile/img/default.jpg",
 };
@@ -298,7 +294,7 @@ export default {
     },
     //Reset Modal
     resetModal() {
-      this.modal = { show: false, request: false, comments: [] };
+      this.modal = { show: false, loading: false, requestData: [], comments: [] };
       this.dataBase = { ...commentModel };
     },
     updateRequest(itemId) {
@@ -313,8 +309,8 @@ export default {
         this.$q
           .dialog({
             ok: "Si",
-            message: "quiere deshacer el comentario",
-            cancel: true,
+            message: this.$tr(`requestable.cms.message.undoComment`),
+            cancel: "No",
             persistent: true,
           })
           .onOk(async () => {
@@ -351,7 +347,7 @@ export default {
           .dialog({
             ok: "Si",
             message: this.$tr(`requestable.cms.message.undoComment`),
-            cancel: true,
+            cancel: "No",
             persistent: true,
           })
           .onOk(async () => {
@@ -374,13 +370,13 @@ export default {
             comment.loading = false;
             comment.active = false;
             comment.edit = false;
-            this.$alert.info({ message: "Comentario actualizado" });
+            this.$alert.info({ message: this.$tr(`requestable.cms.message.updateComment`) });
           })
           .catch((error) => {
             comment.loading = false;
             console.log(error);
             this.$alert.error({
-              message: "No se puedo actualizar el commentario",
+              message: this.$tr(`requestable.cms.message.updateNoComment`),
             });
           });
       } catch (error) {
@@ -400,29 +396,21 @@ export default {
     },
     async addComment() {
       try {
-        this.modal.loading = true;
+        this.dataBase.loading = true;
         const params = {
           commentableType: "Modules\\Requestable\\Entities\\Requestable",
           commentableId: this.requestableId,
           comment: this.dataBase.text,
         };
-        await this.$crud
-          .create(this.route, params)
-          .then((response) => {
-            const data = response.data;
-            this.getCommentsList(this.requestableId);
-            this.modal.loading = false;
-            this.dataBase.active = false;
-            this.dataBase.text = "";
-            this.$alert.info({ message: "Registro exitoso" });
-          })
-          .catch((error) => {
-            console.log(error);
-            this.modal.loading = false;
-            this.$alert.error({ message: "No se puedo guardar su comentario" });
-          });
+        const response = await this.$crud.create(this.route, params);
+        this.getCommentsList(this.requestableId);
+        this.dataBase = { ...commentModel };
+        this.$alert.info({ message: this.$tr(`requestable.cms.message.savedComment`) });
+
       } catch (error) {
         console.log(error);
+        this.dataBase.loading = false;
+        this.$alert.error({ message:  this.$tr(`requestable.cms.message.savedNoComment`) });
       }
     },
     async deleteComment(id) {
@@ -450,7 +438,7 @@ export default {
             .catch((error) => {
               console.log(error);
               this.modal.loading = false;
-              this.$alert.error({ message: "No se pudo eliminar" });
+              this.$alert.error({ message: this.$tr("isite.cms.message.recordNoDeleted") });
             });
         })
         .onCancel(() => {});
