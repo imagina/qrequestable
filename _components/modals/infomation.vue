@@ -243,7 +243,7 @@ export default {
 
       //Set modal data
       this.modal = {
-        title: requestData.category.title,
+        title: `ID:${this.requestableId} - Estado: ${requestData.status.title}`,
         show: true,
         loading: true,
         requestData: [],
