@@ -12,6 +12,7 @@
         <div class="row q-col-gutter-md">
           <div class="col">
             <dynamic-form
+                v-if="this.modal.requestData.length > 0"
                 v-model="form"
                 :form-id="formId"
                 @submit="saveForm"
@@ -261,7 +262,7 @@ export default {
         //Request data
         let requestFormParams = {refresh: true, params: {include: 'fields'}}
         //Get form
-        this.$crud.show('apiRoutes.qform.forms', form.id, requestFormParams).then(async response => {
+        await this.$crud.show('apiRoutes.qform.forms', form.id, requestFormParams).then(async response => {
           await this.$clone(response.data.fields).forEach(field => {
             let fieldType = field.dynamicField?.type || 'input'//get field type
             let fieldValue = requestValues[this.$helper.convertStringToSnakeCase(field.name)] || '-'//get field value
