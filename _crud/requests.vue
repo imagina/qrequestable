@@ -57,31 +57,6 @@ export default {
                   apiRoute: 'apiRoutes.qrequestable.automationRule'
                 },
           },
-          actions: [
-            {
-              name: 'viewEntity',
-              icon: 'fas fa-eye',
-              label: this.$tr('isite.cms.label.show'),
-              format: (field) => {
-                return (field.requestableUrl) ? {} : {vIf: false}
-              },
-              action: (item) => {
-                if (item.requestableUrl) this.$helper.openExternalURL(item.requestableUrl)
-              }
-            },
-            {
-              name: 'viewLead',
-              icon: 'fas fa-info-circle',
-              color: 'info',
-              tooltip: this.$tr('isite.cms.label.information'),
-              format: (field) => {
-                return (field.category && field.category.form) ? {} : {vIf: false}
-              },
-              action: (item) => {
-                this.showRequestData(item)
-              }
-            }
-          ],
           filters: {
             /*requestedBy: {
               type: 'select',
