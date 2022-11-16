@@ -42,7 +42,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,files,creator,requestedBy',
+                  include: 'fields,files,creator,status,requestedBy,category',
                 },
                 orderStatus: {
                   filter: {

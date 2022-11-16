@@ -62,11 +62,6 @@ export default {
               icon: "fas fa-info-circle",
               color: "info",
               tooltip: this.$tr("isite.cms.label.information"),
-              format: (field) => {
-                return field.category && field.category.form
-                  ? {}
-                  : { vIf: false };
-              },
               action: (item) => {
                 this.showModal(item)
               },

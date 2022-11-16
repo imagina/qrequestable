@@ -237,7 +237,7 @@ export default {
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
       this.requestedBy = requestData.requestedBy?.id || null;
-
+      
       //Set modal data
       this.modal = {
         title: `ID:${this.requestableId} - Estado: ${requestData.status.title}`,
@@ -247,7 +247,7 @@ export default {
         comments: [],
       };
 
-      this.getCommentsList(this.requestableId);
+      await this.getCommentsList(this.requestableId);
 
       //Get form data
       let form = requestData.category?.form || false;
@@ -286,12 +286,12 @@ export default {
             //item.dynamicField.value = item.value;
             this.form[item.dynamicField.name] = item.value;
           });
-
           this.modal.loading = false
         }).catch(error => {
           this.modal.loading = false
         })
       }
+      this.modal.loading = false
     },
     //Reset Modal
     resetModal() {
