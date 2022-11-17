@@ -13,7 +13,7 @@ export default {
         entityName: config("main.qrequestable.entityNames.status"),
         apiRoute: 'apiRoutes.qrequestable.categories',
         permission: 'requestable.requestables',
-        extraFormFields: 'requestable.crud-fields.status',
+        extraFormFields: 'requestable.crud-fields.categories',
         create: {
           title: this.$tr('requestable.cms.newCategory')
         },
@@ -118,6 +118,18 @@ export default {
                 {label: this.$tr('isite.cms.label.no'), value: 0},
               ]
             },
+          },
+          formId: {
+            value: null,
+            type: 'select',
+            required : true,
+            props: {
+              label: `${this.$tr('isite.cms.label.form')}*`
+            },
+            loadOptions: {
+              apiRoute: 'apiRoutes.qform.forms',
+              select: {label: 'title', id: 'id'}
+            }
           },
           events: {
             value: 0,
