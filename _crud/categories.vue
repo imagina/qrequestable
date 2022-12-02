@@ -80,15 +80,6 @@ export default {
           },
           type: {
             value: '',
-            name: 'slug',
-            type: 'input',
-            props: {
-              label: `${this.$tr('isite.cms.form.type')}*`,
-              readonly: (this.crudInfo.id !== ''),
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
           },
           timeElapsedToCancel: {
             value: '',
@@ -132,6 +123,17 @@ export default {
               label: `${this.$trp('isite.cms.form.event')}`,
             },
           }
+        },
+        getDataForm: (formData, type) => {
+          return new Promise(resolve => {
+            if (type == 'create') {
+              //Add system name
+              const title = formData.es.title;
+              formData.type = this.$helper.getSlug(title || '');
+            }
+            //Resolve
+            resolve(formData)
+          })
         }
       }
     },
