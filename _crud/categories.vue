@@ -80,9 +80,11 @@ export default {
           },
           type: {
             value: '',
+            name: 'slug',
             type: 'input',
             props: {
               label: `${this.$tr('isite.cms.form.type')}*`,
+              readonly: (this.crudInfo.id !== ''),
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
@@ -109,15 +111,6 @@ export default {
           },
           internal: {
             value: 0,
-            type: 'select',
-            permission: 'requestable.categories.edit-internal',
-            props: {
-              label: `${this.$tr('isite.cms.label.internal')}`,
-              options: [
-                {label: this.$tr('isite.cms.label.yes'), value: 1},
-                {label: this.$tr('isite.cms.label.no'), value: 0},
-              ]
-            },
           },
           formId: {
             value: null,
