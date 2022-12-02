@@ -2,8 +2,6 @@
 <script>
 //Components
 import fileList from '@imagina/qsite/_components/master/fileList'
-
-
 export default {
   components: {fileList},
   data() {
