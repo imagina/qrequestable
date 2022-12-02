@@ -120,7 +120,7 @@ export default {
             type: 'json',
             permission: 'requestable.categories.edit-events',
             props: {
-              label: `${this.$trp('isite.cms.form.event')}`,
+              label: `${this.$trp('isite.cms.label.event')}`,
             },
           }
         },
