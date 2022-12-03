@@ -13,12 +13,9 @@ export default {
         entityName: config("main.qrequestable.entityNames.status"),
         apiRoute: 'apiRoutes.qrequestable.categories',
         permission: 'requestable.requestables',
-        extraFormFields: 'requestable.crud-fields.status',
+        extraFormFields: 'requestable.crud-fields.categories',
         create: {
-          title: this.$tr('requestable.cms.newCategory'),
-          method: () => {
-            console.warn(">>>>>>>>>> Creating...")
-          }
+          title: this.$tr('requestable.cms.newCategory')
         },
         read: {
           columns: [
@@ -66,9 +63,6 @@ export default {
         },
         update: {
           title: this.$tr('requestable.cms.updateCategory'),
-          method: () => {
-            console.warn(">>>>>>>>>> Updating...")
-          }
         },
         delete: true,
         formLeft: {
@@ -86,13 +80,6 @@ export default {
           },
           type: {
             value: '',
-            type: 'input',
-            props: {
-              label: `${this.$tr('isite.cms.form.type')}*`,
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
           },
           timeElapsedToCancel: {
             value: '',
@@ -115,24 +102,38 @@ export default {
           },
           internal: {
             value: 0,
+          },
+          formId: {
+            value: null,
             type: 'select',
-            permission: 'requestable.categories.edit-internal',
+            required : true,
             props: {
-              label: `${this.$tr('isite.cms.label.internal')}`,
-              options: [
-                {label: this.$tr('isite.cms.label.yes'), value: 1},
-                {label: this.$tr('isite.cms.label.no'), value: 0},
-              ]
+              label: `${this.$tr('isite.cms.label.form')}*`
             },
+            loadOptions: {
+              apiRoute: 'apiRoutes.qform.forms',
+              select: {label: 'title', id: 'id'}
+            }
           },
           events: {
             value: 0,
             type: 'json',
             permission: 'requestable.categories.edit-events',
             props: {
-              label: `${this.$trp('isite.cms.form.event')}`,
+              label: `${this.$trp('isite.cms.label.event')}`,
             },
           }
+        },
+        getDataForm: (formData, type) => {
+          return new Promise(resolve => {
+            if (type == 'create') {
+              //Add system name
+              const title = formData.es.title;
+              formData.type = this.$helper.getSlug(title || '');
+            }
+            //Resolve
+            resolve(formData)
+          })
         }
       }
     },

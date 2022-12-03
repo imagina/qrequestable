@@ -72,17 +72,6 @@ export default {
               ],
             },
           },
-          value: {
-            value: '',
-            type: 'input',
-            props: {
-              type: 'number',
-              label: `${this.$tr('isite.cms.label.value')}*`,
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
-          },
           categoryId: {
             value: null,
             type: 'select',

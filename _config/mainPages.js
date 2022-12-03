@@ -8,7 +8,7 @@ export default {
     page: () => import('@imagina/qrequestable/_pages/main/kanbanRequesTable'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'requestable.cms.sidebar.mainRequestable',
-    icon: 'fas fa-file-signature',
+    icon: 'fal fa-file-signature',
     subHeader: {
       refresh: true,
     }
@@ -22,7 +22,7 @@ export default {
     page: () => import('@imagina/qrequestable/_pages/main/formRequest'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'requestable.cms.sidebar.mainRequestableCreate',
-    icon: 'fas fa-file-signature',
+    icon: 'fal fa-file-signature',
     subHeader: {
       refresh: true,
       breadcrumb : ['mainqrequestable.requestables']

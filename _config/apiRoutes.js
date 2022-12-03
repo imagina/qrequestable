@@ -8,5 +8,10 @@ export default {
   version: moduleVersion,
   requestables: `${urlBase}/requestables`,
   statuses: `${urlBase}/statuses`,
-  categories: `${urlBase}/categories`
+  categories: `${urlBase}/categories`,
+  orderStatus: `${urlBase}/statuses/order-status`,
+  automationRule: `${urlBase}/automation-rule`,
+  comments: `${urlBase}/comments`,
+  categoriesRule: `${urlBase}/category-rule`,
+  categoriesFormFields: `${urlBase}/categories/{categoryId}/form-fields`,
 }
