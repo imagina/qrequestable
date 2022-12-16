@@ -11,6 +11,8 @@
       <div class="">
         <div class="row q-col-gutter-md">
           <div class="col">
+            <dynamic-field v-for="(field, keyField) in field" :key="keyField"
+                       v-model="form[keyField]" :field="field" class="tw-py-2"/>
             <dynamic-form
                 v-if="this.modal.requestData.length > 0"
                 v-model="form"
@@ -226,6 +228,27 @@ export default {
         destroy: this.$auth.hasAccess("icomments.comments.destroy"),
       };
     },
+    field() {
+      return {
+        requestedBy: {
+            name: "requestedBy",
+            value: null,
+            type: "select",
+            permission: "requestable.requestables.edit-requested-by",
+            props: {
+              vIf: this.manageResponsiblePermissions,
+              selectByDefault: true,
+              label: this.$tr('isite.cms.form.requestedBy'),
+              clearable: true,
+              color: "primary",
+            },
+            loadOptions: {
+              apiRoute: "apiRoutes.quser.users",
+              select: { label: "fullName", id: "id" },
+            },
+        },
+      }
+    }
   },
   methods: {
     formatDate(date) {
@@ -237,6 +260,7 @@ export default {
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
       this.requestedBy = requestData.requestedBy?.id || null;
+      this.form.requestedBy = this.requestedBy;
       
       //Set modal data
       this.modal = {
@@ -481,7 +505,6 @@ export default {
           ...this.form,
           type: this.categoryType,
           statusId: this.statusId,
-          requestedBy: this.requestedBy || this.$store.state.quserAuth.userId
         };
         await this.$crud.update('apiRoutes.qrequestable.requestables', this.requestableId, form);
         await this.$emit('kanbanRefresh', this.statusId);
