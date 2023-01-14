@@ -41,6 +41,9 @@ export default {
     };
   },
   computed: {
+    deletePermissions() {
+      return this.$auth.hasAccess('requestable.requestables.destroy');
+    },
     customData() {
       return {
         read: {
@@ -66,6 +69,17 @@ export default {
                 this.showModal(item)
               },
             },
+            {
+              name: "deleteLead",
+              label: this.$tr('isite.cms.label.delete'),
+              color: 'red',
+              format: (field) => {
+                return { vIf: this.deletePermissions };
+              },
+              action: (item) => {
+                this.delete(item)
+              },
+            }
           ],
         },
       };
@@ -75,6 +89,12 @@ export default {
     //update
     async showModal(requestData) {
       await this.$refs.modalInfortion.showRequestData(requestData);
+    },
+    //delete
+    async delete(item) {
+      if (this.$refs.crudRequests.$refs.crudIndex.$refs.kanban) {
+        this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.deleteKanbanCard(item);
+      }
     },
     async kanbanRefresh(statusId) {
       if (this.$refs.crudRequests.$refs.crudIndex.$refs.kanban) {
