@@ -65,9 +65,6 @@ export default {
               icon: "fas fa-info-circle",
               color: "info",
               tooltip: this.$tr("isite.cms.label.information"),
-              format: (field, automation) => {
-                return { vIf: !automation };
-              },
               action: (item) => {
                 this.showModal(item)
               },
@@ -77,7 +74,7 @@ export default {
               label: this.$tr('isite.cms.label.delete'),
               color: 'red',
               icon: 'fas fa-trash-alt',
-              format: (field, automation) => {
+              format: (field) => {
                 return { vIf: this.deletePermissions };
               },
               action: (item, automation) => {
