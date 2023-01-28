@@ -65,6 +65,9 @@ export default {
               icon: "fas fa-info-circle",
               color: "info",
               tooltip: this.$tr("isite.cms.label.information"),
+              format: (field, automation) => {
+                return { vIf: !automation };
+              },
               action: (item) => {
                 this.showModal(item)
               },
@@ -73,11 +76,12 @@ export default {
               name: "deleteLead",
               label: this.$tr('isite.cms.label.delete'),
               color: 'red',
-              format: (field) => {
+              icon: 'fas fa-trash-alt',
+              format: (field, automation) => {
                 return { vIf: this.deletePermissions };
               },
-              action: (item) => {
-                this.delete(item)
+              action: (item, automation) => {
+                this.delete(item, automation)
               },
             }
           ],
@@ -91,9 +95,9 @@ export default {
       await this.$refs.modalInfortion.showRequestData(requestData);
     },
     //delete
-    async delete(item) {
+    async delete(item, automation = false) {
       if (this.$refs.crudRequests.$refs.crudIndex.$refs.kanban) {
-        this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.deleteKanbanCard(item);
+        this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.deleteKanbanCard(item, automation);
       }
     },
     async kanbanRefresh(statusId) {
