@@ -1,12 +1,13 @@
 <template>
   <div>
-    <infomation 
+    <infomation
       ref="modalInfortion"
       @kanbanRefresh="kanbanRefresh"
     />
     <crud
       :crudData="import('@imagina/qrequestable/_crud/requests.vue')"
       :custom-data="customData"
+      :title="$tr($route.meta.title)"
       ref="crudRequests"
     />
   </div>
