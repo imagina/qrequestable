@@ -33,7 +33,7 @@ export default {
                     name: 'categoryId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.statuses',
-                  include: 'category', 
+                  include: 'category',
                 },
                 card: {
                   filter:{
@@ -179,8 +179,10 @@ export default {
         const response = await this.$crud.index('apiRoutes.qrequestable.categories');
         this.listOfCategories = response.data;
       } catch (error) {
-        this.listOfCategories = [];
-        console.log(error);
+        this.$apiResponse.handleError(error, () => {
+          this.listOfCategories = [];
+          console.log(error);
+        })
       }
     }
   }

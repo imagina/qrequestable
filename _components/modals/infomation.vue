@@ -264,7 +264,7 @@ export default {
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
       this.requestedBy = requestData.requestedBy?.id || null;
-      
+
       //Set modal data
       this.modal = {
         title: `ID:${this.requestableId} - Estado: ${requestData.status.title}`,
@@ -315,7 +315,9 @@ export default {
           });
           this.modal.loading = false
         }).catch(error => {
-          this.modal.loading = false
+          this.$apiResponse.handleError(error, () => {
+            this.modal.loading = false
+          })
         })
       }
       this.modal.loading = false
