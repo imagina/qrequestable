@@ -59,7 +59,7 @@ export default {
             requestedBy: {
               value: null,
               type: 'crud',
-              permission: 'requestable.requestables.edit-created-by',
+              permission: "requestable.requestables.filter-requested-by",
               props: {
                 crudType: 'select',
                 crudData: import('@imagina/quser/_crud/users'),
@@ -77,7 +77,7 @@ export default {
             },
             createdBy: {
               type: 'select',
-              permission: "requestable.requestables.filter-requested-by",
+              permission: 'requestable.requestables.edit-created-by',
               props: {
                 label: this.$tr('isite.cms.label.creator'),
                 clearable: true
@@ -142,27 +142,27 @@ export default {
               requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
             }
           },
-        createdBy: {
-          value: null,
-          type: 'crud',
-          permission: 'requestable.requestables.edit-created-by',
-          props: {
-            crudType: 'select',
-            crudData: import('@imagina/quser/_crud/users'),
-            crudProps: {
-              label: this.$tr('isite.cms.form.createdBy'),
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
-            config: {
-              filterByQuery: true,
-              options: {
-                label: 'fullName', value: 'id'
+          createdBy: {
+            value: null,
+            type: 'crud',
+            permission: 'requestable.requestables.edit-created-by',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/quser/_crud/users'),
+              crudProps: {
+                label: this.$tr('isite.cms.form.createdBy'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'fullName', value: 'id'
+                }
               }
-            }
+            },
           },
-        },
           requestedBy: {
             value: null,
             type: 'crud',
