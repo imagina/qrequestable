@@ -66,10 +66,31 @@ export default {
                 requestParams: {filter: {categoryId: this.selectedCategory?.id }}
               }
         },
-        requestedBy: {
+        createdBy: {
             value: null,
             type: 'crud',
             permission: 'requestable.requestables.edit-created-by',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/quser/_crud/users'),
+              crudProps: {
+                label: this.$tr('isite.cms.form.createdBy'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'fullName', value: 'id'
+                }
+              }
+            },
+        },
+        requestedBy: {
+            value: null,
+            type: 'crud',
+            permission: 'requestable.requestables.edit-requested-by',
             props: {
               crudType: 'select',
               crudData: import('@imagina/quser/_crud/users'),
