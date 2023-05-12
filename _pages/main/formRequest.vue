@@ -7,8 +7,12 @@
       </div>
       <!--Fields-->
       <div class="box box-auto-height q-mb-md">
-        <dynamic-field v-for="(field, keyField) in formFields" :key="keyField"
-                       v-model="formData[keyField]" :field="field"/>
+        <dynamic-field 
+          v-for="(field, keyField) in formFields" 
+          :key="keyField"
+          v-model="formData[keyField]" 
+          :field="field"
+        />
       </div>
       <!--Dinamic form-->
       <dynamic-form v-if="formCategory.vIf" v-bind="formCategory"

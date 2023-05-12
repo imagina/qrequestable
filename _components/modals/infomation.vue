@@ -11,8 +11,13 @@
       <div class="">
         <div class="row q-col-gutter-md">
           <div class="col">
-            <dynamic-field v-for="(field, keyField) in field" :key="keyField"
-                       v-model="requestedBy" :field="field" class="tw-py-2"/>
+            <dynamic-field 
+              v-for="(field, keyField) in field" 
+              :key="keyField"
+              v-model="dynamicFieldForm[keyField]" 
+              :field="field" 
+              class="tw-py-2"
+            />
             <dynamic-form
                 v-if="this.modal.requestData.length > 0"
                 v-model="form"
@@ -200,8 +205,8 @@ export default {
       },
       dataBase: { ...commentModel },
       form: {},
+      dynamicFieldForm: {},
       formId: null,
-      requestedBy: null,
       statusId: null,
       categoryType: null,
       requestableId: null,
@@ -271,7 +276,7 @@ export default {
                 }
               }
             },
-        }
+        },
       }
     }
   },
@@ -284,7 +289,8 @@ export default {
       this.requestableId = requestData.id;
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
-      this.requestedBy = requestData.requestedBy?.id || null;
+      this.dynamicFieldForm.requestedBy = requestData.requestedBy?.id || null;
+      this.dynamicFieldForm.createdBy = requestData.createdBy || null;
 
       //Set modal data
       this.modal = {
@@ -529,7 +535,7 @@ export default {
         this.modal.loading = true;
         const form = {
           ...this.form,
-          requestedBy: this.requestedBy,
+          ...this.dynamicFieldForm,
           type: this.categoryType,
           statusId: this.statusId,
         };
