@@ -40,7 +40,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,files,creator,status,requestedBy,category',
+                  include: 'fields,creator,status,requestedBy,category.forms.fields',
                 },
                 orderStatus: {
                   filter: {
