@@ -1,6 +1,6 @@
 <template>
   <div>
-    <master-modal
+    <superModal
       v-model="modal.show"
       @hide="resetModal()"
       :loading="modal.loading"
@@ -170,7 +170,7 @@
           </div>
         </div>
       </div>
-    </master-modal>
+    </superModal>
   </div>
 </template>
 <script>
@@ -186,8 +186,9 @@ const commentModel = {
   avatar:
     "https://dev-gestionhc.ozonohosting.com/modules/iprofile/img/default.jpg",
 };
+import superModal from './superModal.vue'
 export default {
-  components: { fileList, CKEditor },
+  components: { fileList, CKEditor, superModal },
   props: {},
   data() {
     return {
