@@ -7,6 +7,7 @@
       :title="modal.title"
       custom-position
       modalWidthSize="98%"
+      :multiActions="multiActions"
     >
       <div class="">
         <div class="row q-col-gutter-md">
@@ -171,6 +172,7 @@
         </div>
       </div>
     </superModal>
+    <modalCrud />
   </div>
 </template>
 <script>
@@ -187,8 +189,10 @@ const commentModel = {
     "https://dev-gestionhc.ozonohosting.com/modules/iprofile/img/default.jpg",
 };
 import superModal from './superModal.vue'
+import modalCrudStore from '../stores/modalCrud.store.ts'
+import modalCrud from './modalCrud.vue'
 export default {
-  components: { fileList, CKEditor, superModal },
+  components: { fileList, CKEditor, superModal, modalCrud },
   props: {},
   data() {
     return {
@@ -279,6 +283,30 @@ export default {
             },
         },
       }
+    },
+    multiActions() {
+      return [
+        {
+          type: 'crud',
+          props: {
+            color: 'primary',
+            icon: 'fa-light fa-folder-open',
+            label: this.$tr('idocs.cms.sidebar.adminGroup'),
+          },
+          action: () => {
+            modalCrudStore.showModal = true;
+            modalCrudStore.dataCrud = {
+              path: import('@imagina/qdocument/_crud/documents.vue'),
+              customData: {
+                read: {
+                  noFilter: false,
+                },
+              },
+              title: this.$tr('idocs.cms.sidebar.adminGroup')
+            }
+          }
+        },
+      ]
     }
   },
   methods: {

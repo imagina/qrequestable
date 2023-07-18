@@ -23,6 +23,21 @@
           <b>{{ title }}</b>
         </div>
         <!--Close Button-->
+        <div 
+          class="
+           tw-absolute 
+           tw-right-0 
+           tw-mr-20 
+           tw-space-x-2"
+          >
+            <q-btn 
+              v-for="(btn, keyBtn) in multiActions"
+              v-if="btn.props.vIf != undefined ? btn.props.vIf : true"
+              :key="keyBtn"
+              v-bind="{ ...actionBtnProps, ...(btn.props || {}) }"
+              @click="btn.action ? btn.action() : null" 
+            />
+        </div>
         <q-btn
           v-close-popup
           icon="fas fa-times"
@@ -33,6 +48,7 @@
           outline
           v-if="!hideCloseAction"
         />
+
       </div>
       <q-separator inset />
       <!--Slot content-->
@@ -84,10 +100,11 @@ export default defineComponent({
     customPosition: { type: Boolean, default: false },
     modalWidthSize: { type: String, default: '65vw' },
     customClass: { type: String, default: '' },
+    multiActions: {type: Array, default: () => [] }
   },
   setup(props, { emit }) {
     const show = ref(false);
-
+    const multiActions: any = computed(() => props.multiActions);
     watch(
       () => props.value,
       (newValue, oldValue) => {
@@ -119,6 +136,7 @@ export default defineComponent({
       show,
       actionBtnProps,
       masterModalWidthSize,
+      multiActions,
     };
   },
 });
