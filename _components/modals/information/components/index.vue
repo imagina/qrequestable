@@ -25,6 +25,12 @@
                 :form-id="formId"
                 @submit="saveForm"
               />
+              <div>
+                <file-list-component 
+                  v-bind="files" 
+                  @selected="files => $emit('selected', files)"
+                />
+              </div>
           </div>
           <div
             class="col-12 col-md-8 col-lg-7"
@@ -191,8 +197,17 @@ const commentModel = {
 import superModal from './superModal.vue'
 import modalCrudStore from '../stores/modalCrud.store.ts'
 import modalCrud from './modalCrud.vue'
+import fileListComponent from '@imagina/qsite/_components/master/fileList'
+import modelFiles from '../models/modelFiles.ts'
+
 export default {
-  components: { fileList, CKEditor, superModal, modalCrud },
+  components: { 
+    fileList, 
+    CKEditor, 
+    superModal, 
+    modalCrud,
+    fileListComponent 
+  },
   props: {},
   data() {
     return {
@@ -230,6 +245,9 @@ export default {
     },
   },
   computed: {
+    files() {
+      return modelFiles;
+    },
     permisionComments() {
       return {
         create: this.$auth.hasAccess("icomments.comments.create"),
@@ -299,7 +317,7 @@ export default {
               path: import('@imagina/qdocument/_crud/documents.vue'),
               customData: {
                 read: {
-                  noFilter: false,
+                  noFilter: true,
                 },
               },
               title: this.$tr('idocs.cms.sidebar.adminGroup')
