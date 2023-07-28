@@ -139,7 +139,7 @@ export default {
             config: {
               filterByQuery: true,
               options: {
-                label: 'fullName', value: 'id'
+                label: 'fullName', value: 'id', img: 'mainImage'
               }
             }
           },
@@ -160,9 +160,9 @@ export default {
               config: {
                 filterByQuery: true,
                 options: {
-                  label: 'fullName', value: 'id'
+                  label: 'fullName', value: 'id', img: 'mainImage'
                 }
-              }
+              },
             },
         },
       }
