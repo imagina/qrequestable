@@ -32,149 +32,12 @@
                 />
               </div>
           </div>
-          <div
-            class="col-12 col-md-8 col-lg-7"
-            v-if="permisionComments.index"
-          >
-            <q-card class="box tw-rounded-xl tw-h-full">
-              <q-card-section>
-                <q-list dense class="list-comments">
-                  <q-item
-                    class="tw-my-3"
-                    style="padding: 0px !important"
-                    v-if="permisionComments.create"
-                  >
-                    <q-item-section top avatar>
-                      <q-avatar size="md" color="grey-4" class="tw-ml-2">
-                        <img :src="dataBase.avatar" />
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section
-                      v-if="!dataBase.active"
-                      class="tw-mr-4 tw-cursor-pointer"
-                    >
-                      <q-card flat bordered>
-                        <q-card-section
-                          class="tw-py-2 tw-cursor-pointer text-grey-6"
-                          v-html="textPlaceholder"
-                          @click="activeText()"
-                          :title="$tr(`isite.cms.label.edit`)"
-                        />
-                      </q-card>
-                    </q-item-section>
-                    <q-item-section class="bg-grey-1 shadow-1 tw-p-2" v-else>
-                      <CKEditor
-                        v-model="dataBase.text"
-                        :config="editorConfig"
-                      ></CKEditor>
-                      <div class="flex justify-between">
-                        <div class="tw-mt-2 tw-space-x-2">
-                          <q-btn
-                            :loading="dataBase.loading"
-                            :disable="dataBase.text == ''"
-                            @click="addComment()"
-                            rounded
-                            size="md"
-                            :label="$tr(`isite.cms.label.save`)"
-                            color="primary"
-                            no-caps
-                          />
-                          <q-btn
-                            flat
-                            size="md"
-                            @click="cancelText()"
-                            padding="4px 4px"
-                            icon="close"
-                            color="primary"
-                          />
-                        </div>
-                      </div>
-                    </q-item-section>
-                  </q-item>
-                  <q-item v-if="permisionComments.index">
-                    <q-item-section>
-                      <q-timeline class="grey-4">
-                        <q-timeline-entry
-                          v-for="(item, index, itemKey) in modal.comments"
-                          :key="itemKey"
-                          :avatar="item.userProfile.mainImage"
-                        >
-                          <h4 class="tw-text-sm">
-                            <strong>
-                              {{ item.userProfile.fullName }}
-                            </strong>
-                            <small>
-                              {{ formatDate(item.updatedAt) }}
-                              <span v-if="item.createdAt !== item.updatedAt">
-                                ({{ $tr(`isite.cms.label.edited`) }})</span
-                              >
-                            </small>
-                          </h4>
-                          <CKEditor
-                            v-model="item.comment"
-                            v-if="item.active"
-                          ></CKEditor>
-                          <div v-else>
-                            <q-card flat bordered>
-                              <q-card-section
-                                class="tw-py-2 tw-cursor-pointer"
-                                v-html="item.comment"
-                                @click="activeEdit(item.id)"
-                                :title="$tr(`isite.cms.label.edit`)"
-                                v-if="permisionComments.edit"
-                              />
-                              <q-card-section
-                                class="tw-py-2"
-                                v-html="item.comment"
-                                v-else
-                              />
-                            </q-card>
-                            <p class="tw-mt-2 tw-text-xs">
-                              <a
-                                v-if="permisionComments.destroy"
-                                class="link-delete tw-cursor-pointer"
-                                @click="deleteComment(item.id)"
-                                >Eliminar</a
-                              >
-                            </p>
-                          </div>
-                          <div class="flex justify-between" v-if="item.active">
-                            <div class="tw-mt-2 tw-space-x-2">
-                              <q-btn
-                                :disable="
-                                  item.comment == '' ||
-                                  item.comment == item.textEdit
-                                "
-                                :loading="item.loading"
-                                @click="updateComment('edit', item.id)"
-                                rounded
-                                size="md"
-                                :label="$tr(`isite.cms.label.update`)"
-                                color="primary"
-                                no-caps
-                              />
-                              <q-btn
-                                flat
-                                size="md"
-                                @click="updateComment('cancel', item.id)"
-                                padding="4px 4px"
-                                icon="close"
-                                color="primary"
-                              >
-                                <q-tooltip>{{
-                                  $tr(`isite.cms.label.cancel`)
-                                }}</q-tooltip>
-                              </q-btn>
-                            </div>
-                          </div>
-                        </q-timeline-entry>
-                      </q-timeline>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-card-section>
-            </q-card>
+          <div class="col-12 col-md-8 col-lg-7">
+            <comments 
+            :commentableId="Number(requestableId)"
+            />
           </div>
+          
         </div>
       </div>
     </superModal>
@@ -199,6 +62,7 @@ import modalCrudStore from '../stores/modalCrud.store.ts'
 import modalCrud from './modalCrud.vue'
 import fileListComponent from '@imagina/qsite/_components/master/fileList'
 import modelFiles from '../models/modelFiles.ts'
+import comments from '@imagina/qsite/_components/master/comments/index.vue'
 
 export default {
   components: { 
@@ -206,7 +70,8 @@ export default {
     CKEditor, 
     superModal, 
     modalCrud,
-    fileListComponent 
+    fileListComponent,
+    comments 
   },
   props: {},
   data() {
@@ -347,9 +212,6 @@ export default {
         requestData: [],
         comments: [],
       };
-
-      await this.getCommentsList(this.requestableId);
-
       //Get form data
       let form = requestData.category?.form || false;
       //Merge values
@@ -403,179 +265,6 @@ export default {
     },
     updateRequest(itemId) {
       this.$refs.crudRequests.update({ id: itemId });
-    },
-    activeText() {
-      this.dataBase.active = true;
-      this.dataBase.text = "";
-    },
-    cancelText() {
-      if (this.dataBase.text.length > 0) {
-        this.$q
-          .dialog({
-            ok: "Si",
-            message: this.$tr(`requestable.cms.message.undoComment`),
-            cancel: "No",
-            persistent: true,
-          })
-          .onOk(async () => {
-            this.dataBase.active = false;
-            this.dataBase.text = "";
-          })
-          .onCancel(() => {});
-      } else {
-        this.dataBase.active = false;
-      }
-    },
-    updateComment(type, id) {
-      try {
-        const comment = this.modal.comments.find((item) => item.id === id);
-        if (comment) {
-          if (type == "cancel") {
-            this.cancelComment(comment);
-          }
-          if (type == "edit") {
-            if (comment.comment !== comment.textEdit) {
-              this.editComment(id, comment);
-            } else {
-              this.cancelComment(comment);
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    cancelComment(comment) {
-      if (comment.comment !== comment.textEdit) {
-        this.$q
-          .dialog({
-            ok: "Si",
-            message: this.$tr(`requestable.cms.message.undoComment`),
-            cancel: "No",
-            persistent: true,
-          })
-          .onOk(async () => {
-            comment.comment = comment.textEdit;
-            comment.active = false;
-          })
-          .onCancel(() => {});
-      } else {
-        comment.active = false;
-      }
-    },
-    editComment(id, comment) {
-      try {
-        comment.loading = true;
-        this.$crud
-          .update(this.route, id, { comment: comment.comment })
-          .then((response) => {
-            const commentUpdate = response.data;
-            comment.updatedAt = commentUpdate.updatedAt;
-            comment.loading = false;
-            comment.active = false;
-            comment.edit = false;
-            this.$alert.info({ message: this.$tr(`requestable.cms.message.updateComment`) });
-          })
-          .catch((error) => {
-            comment.loading = false;
-            console.log(error);
-            this.$alert.error({
-              message: this.$tr(`requestable.cms.message.updateNoComment`),
-            });
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    activeEdit(id) {
-      try {
-        const comment = this.modal.comments.find((item) => item.id === id);
-        if (comment) {
-          comment.textEdit = comment.comment;
-          comment.active = true;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async addComment() {
-      try {
-        this.dataBase.loading = true;
-        const params = {
-          commentableType: "Modules\\Requestable\\Entities\\Requestable",
-          commentableId: this.requestableId,
-          comment: this.dataBase.text,
-        };
-        const response = await this.$crud.create(this.route, params);
-        this.getCommentsList(this.requestableId);
-        this.dataBase = { ...commentModel };
-        this.$alert.info({ message: this.$tr(`requestable.cms.message.savedComment`) });
-
-      } catch (error) {
-        console.log(error);
-        this.dataBase.loading = false;
-        this.$alert.error({ message:  this.$tr(`requestable.cms.message.savedNoComment`) });
-      }
-    },
-    async deleteComment(id) {
-      this.$q
-        .dialog({
-          ok: this.$tr("isite.cms.label.delete"),
-          message: this.$tr("isite.cms.message.deleteRecord"),
-          cancel: true,
-          persistent: true,
-        })
-        .onOk(async () => {
-          this.modal.loading = true;
-          this.$crud
-            .delete(this.route, id)
-            .then((response) => {
-              console.log(response.data);
-              this.modal.comments = this.modal.comments.filter(
-                (item) => item.id !== id
-              );
-              this.$alert.info({
-                message: this.$tr("isite.cms.message.recordDeleted"),
-              });
-              this.modal.loading = false;
-            })
-            .catch((error) => {
-              console.log(error);
-              this.modal.loading = false;
-              this.$alert.error({ message: this.$tr("isite.cms.message.recordNoDeleted") });
-            });
-        })
-        .onCancel(() => {});
-    },
-    getCommentsList(commentableId) {
-      try {
-        const params = {
-          filter: {
-            commentableType: "Modules\\Requestable\\Entities\\Requestable",
-            commentableId,
-          },
-          include: "userProfile",
-        };
-        this.$crud
-          .get(this.route, params)
-          .then((response) => {
-            const data = response.data;
-            this.modal.comments = data.map((item) => ({
-              ...item,
-              active: false,
-              loading: false,
-              textEdit: "",
-            }));
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.loading = false;
-            this.$alert.error({ message: "error no actualizo" });
-            console.log(error);
-          });
-      } catch (error) {
-        console.log(error);
-      }
     },
     async saveForm() {
       try {
