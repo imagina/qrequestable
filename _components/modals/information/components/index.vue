@@ -42,6 +42,7 @@
       </div>
     </superModal>
     <modalCrud />
+    <whatappsModal />
   </div>
 </template>
 <script>
@@ -63,6 +64,8 @@ import modalCrud from './modalCrud.vue'
 import fileListComponent from '@imagina/qsite/_components/master/fileList'
 import modelFiles from '../models/modelFiles.ts'
 import comments from '@imagina/qsite/_components/master/comments/index.vue'
+import whatappsModalStore from '../stores/whatappsModal.ts'
+import whatappsModal from './whatappsModal.vue'
 
 export default {
   components: { 
@@ -71,7 +74,8 @@ export default {
     superModal, 
     modalCrud,
     fileListComponent,
-    comments 
+    comments,
+    whatappsModal 
   },
   props: {},
   data() {
@@ -169,6 +173,16 @@ export default {
     },
     multiActions() {
       return [
+        {
+          props: {
+            color: 'green',
+            icon: 'fa-brands fa-whatsapp',
+          },
+          action: () => {
+            whatappsModalStore.roomId = this.requestableId;
+            whatappsModalStore.showModal = true;
+          }
+        },
         {
           type: 'crud',
           props: {
