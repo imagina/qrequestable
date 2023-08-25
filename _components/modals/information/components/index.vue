@@ -19,6 +19,13 @@
               :field="field" 
               class="tw-py-2"
             />
+            <q-btn 
+              round 
+              color="primary" 
+              class="tw-my-2" 
+              icon="fa-light fa-plus"
+              @click="openModalNewForm" 
+            />
             <dynamic-form
                 v-if="this.modal.requestData.length > 0"
                 v-model="form"
@@ -43,6 +50,7 @@
     </superModal>
     <modalCrud />
     <whatappsModal />
+    <newFormModal />
   </div>
 </template>
 <script>
@@ -66,6 +74,8 @@ import modelFiles from '../models/modelFiles.ts'
 import comments from '@imagina/qsite/_components/master/comments/index.vue'
 import whatappsModalStore from '../stores/whatappsModal.ts'
 import whatappsModal from './whatappsModal.vue'
+import newFormModal from './newFormModal.vue'
+import newFormModalStore from '../stores/newFormModal.ts'
 
 export default {
   components: { 
@@ -75,7 +85,8 @@ export default {
     modalCrud,
     fileListComponent,
     comments,
-    whatappsModal 
+    whatappsModal,
+    newFormModal 
   },
   props: {},
   data() {
@@ -207,6 +218,9 @@ export default {
     }
   },
   methods: {
+    openModalNewForm() {
+      newFormModalStore.showModal = true;
+    },
     formatDate(date) {
       return date ? this.$moment(date).format("DD MMM YYYY, h:mm a") : null;
     },
@@ -231,6 +245,7 @@ export default {
       //Merge values
       if (form) {
         this.formId = form.id;
+        newFormModalStore.formId = form.id;
         //Get field values
         let requestValues = {}
         requestData.fields.forEach(item => requestValues[item.name] = item.value)
