@@ -26,8 +26,8 @@
               icon="fa-light fa-plus"
               @click="openModalNewForm" 
             />
-            <dynamic-form
-                v-if="this.modal.requestData.length > 0"
+              <dynamic-form
+                v-if="this.modal.requestData.length > 0 && !showNewForm"
                 v-model="form"
                 :form-id="formId"
                 @submit="saveForm"
@@ -125,6 +125,9 @@ export default {
     },
   },
   computed: {
+    showNewForm() {
+      return newFormModalStore.showModal;
+    },
     files() {
       return modelFiles;
     },
