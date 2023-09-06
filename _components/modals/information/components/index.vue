@@ -232,7 +232,7 @@ export default {
       this.requestableId = requestData.id;
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
-      this.dynamicFieldForm.requestedBy = requestData.requestedById || null;
+      this.dynamicFieldForm.requestedById = requestData.requestedById || null;
       this.dynamicFieldForm.createdBy = requestData.createdBy || null;
 
       //Set modal data
