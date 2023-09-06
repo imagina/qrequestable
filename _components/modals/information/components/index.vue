@@ -19,10 +19,10 @@
               :field="field" 
               class="tw-py-2"
             />
-            <q-btn 
-              round 
+            <q-btn  
               color="primary" 
-              class="tw-my-2" 
+              class="tw-my-2"
+              label="Nuevo formulario" 
               icon="fa-light fa-plus"
               @click="openModalNewForm" 
             />
@@ -232,7 +232,7 @@ export default {
       this.requestableId = requestData.id;
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
-      this.dynamicFieldForm.requestedBy = requestData.requestedBy?.id || null;
+      this.dynamicFieldForm.requestedBy = requestData.requestedById || null;
       this.dynamicFieldForm.createdBy = requestData.createdBy || null;
 
       //Set modal data
