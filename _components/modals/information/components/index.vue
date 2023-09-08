@@ -19,25 +19,24 @@
               :field="field" 
               class="tw-py-2"
             />
-            <q-btn  
-              color="primary" 
-              class="tw-my-2"
-              label="Nuevo formulario" 
-              icon="fa-light fa-plus"
-              @click="openModalNewForm" 
-            />
+            <div v-if="this.modal.requestData.length > 0 && !showNewForm" >
               <dynamic-form
-                v-if="this.modal.requestData.length > 0 && !showNewForm"
                 v-model="form"
                 :form-id="formId"
                 @submit="saveForm"
+                class="tw-my-2"
               />
-              <div>
-                <file-list-component 
-                  v-bind="files" 
-                  @selected="files => $emit('selected', files)"
+              <div class="tw-relative tw--mt-16 tw-px-4">
+                <q-btn  
+                  color="primary" 
+                  class="tw-my-2"
+                  label="Nuevo" 
+                  icon="fa-light fa-plus"
+                  size="sm"
+                  @click="openModalNewForm" 
                 />
               </div>
+            </div>
           </div>
           <div class="col-12 col-md-8 col-lg-7">
             <comments 
@@ -86,7 +85,7 @@ export default {
     fileListComponent,
     comments,
     whatappsModal,
-    newFormModal 
+    newFormModal,
   },
   props: {},
   data() {
@@ -183,6 +182,18 @@ export default {
               },
             },
         },
+        mediasMulti: {
+            value: {},
+            type: 'media',
+            props: {
+              label: this.$tr('idocs.cms.sidebar.adminGroup'),
+              zone: 'documents',
+              entity: "Modules\\Requestable\\Entities\\Requestable",
+              entityId: null,
+              multiple: true,
+              disk: 'privatemedia',
+            }
+        },
       }
     },
     multiActions() {
@@ -195,26 +206,6 @@ export default {
           action: () => {
             whatappsModalStore.roomId = this.requestableId;
             whatappsModalStore.showModal = true;
-          }
-        },
-        {
-          type: 'crud',
-          props: {
-            color: 'primary',
-            icon: 'fa-light fa-folder-open',
-            label: this.$tr('idocs.cms.sidebar.adminGroup'),
-          },
-          action: () => {
-            modalCrudStore.showModal = true;
-            modalCrudStore.dataCrud = {
-              path: import('@imagina/qdocument/_crud/documents.vue'),
-              customData: {
-                read: {
-                  noFilter: true,
-                },
-              },
-              title: this.$tr('idocs.cms.sidebar.adminGroup')
-            }
           }
         },
       ]
