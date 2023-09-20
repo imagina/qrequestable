@@ -13,7 +13,7 @@
         <div class="row q-col-gutter-md">
           <div class="col">
             <dynamic-field 
-              v-for="(field, keyField) in field" 
+              v-for="(field, keyField) in field.main" 
               :key="keyField"
               v-model="dynamicFieldForm[keyField]" 
               :field="field" 
@@ -25,18 +25,24 @@
                 :form-id="formId"
                 @submit="saveForm"
                 class="tw-my-2"
+                noSave
               />
-              <div class="tw-relative tw--mt-16 tw-px-4">
-                <q-btn  
-                  color="primary" 
-                  class="tw-my-2"
-                  label="Nuevo" 
-                  icon="fa-light fa-plus"
-                  size="sm"
-                  @click="openModalNewForm" 
-                />
-              </div>
             </div>
+            <dynamic-field 
+              v-for="(field, keyField) in field.bottom" 
+              :key="keyField"
+              v-model="dynamicFieldForm[keyField]" 
+              :field="field" 
+              :itemId="requestableId"
+              class="tw-py-2"
+            />
+            <q-btn  
+                  color="green" 
+                  class="tw-my-2"
+                  :label="$tr('isite.cms.label.save')" 
+                  icon="fa-light fa-plus"
+                  @click="saveForm" 
+            />
           </div>
           <div class="col-12 col-md-8 col-lg-7">
             <comments 
@@ -140,7 +146,17 @@ export default {
     },
     field() {
       return {
-        createdBy: {
+        main: {
+          date: {
+          value: null,
+          props: {
+            label: "Block-in/out Date"
+          },
+          name: "blockInBlockOut",
+          field: { value: 'blockInBlockOut' },
+          quickFilter: true
+          },
+          createdBy: {
           value: null,
           type: 'crud',
           permission: 'requestable.requestables.edit-created-by',
@@ -181,8 +197,10 @@ export default {
                 }
               },
             },
+        }
         },
-        mediasMulti: {
+        bottom: {
+          mediasMulti: {
             value: {},
             type: 'media',
             props: {
@@ -193,7 +211,8 @@ export default {
               multiple: true,
               disk: 'privatemedia',
             }
-        },
+          },
+        }
       }
     },
     multiActions() {

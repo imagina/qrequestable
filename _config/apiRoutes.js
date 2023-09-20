@@ -14,4 +14,5 @@ export default {
   comments: `${urlBase}/comments`,
   categoriesRule: `${urlBase}/category-rule`,
   categoriesFormFields: `${urlBase}/categories/{categoryId}/form-fields`,
+  analytics: `${urlBase}/requestable/analytics`
 }
