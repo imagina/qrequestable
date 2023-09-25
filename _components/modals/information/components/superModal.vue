@@ -145,7 +145,7 @@ export default defineComponent({
 <style lang="stylus">
 .master-dialog
   &__content
-    background white
+    background #eef2f4;
 
   &__header
     padding 16px
