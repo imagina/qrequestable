@@ -8,6 +8,7 @@
       custom-position
       modalWidthSize="98%"
       :multiActions="multiActions"
+      :actions="actions"
     >
       <div class="">
         <div class="row q-col-gutter-md">
@@ -35,13 +36,6 @@
               :field="field" 
               :itemId="requestableId"
               class="tw-py-2"
-            />
-            <q-btn  
-                  color="green" 
-                  class="tw-my-2"
-                  :label="$tr('isite.cms.label.save')" 
-                  icon="fa-light fa-plus"
-                  @click="saveForm" 
             />
           </div>
           <div class="col-12 col-md-8 col-lg-7">
@@ -228,7 +222,21 @@ export default {
           }
         },
       ]
-    }
+    },
+    actions() {
+      return [
+        {
+          props: {
+            label: this.$tr('isite.cms.label.save'),
+            color: 'primary',
+            icon: 'fa-light fa-save',
+          },
+          action: async () => {
+            await this.saveForm();
+          }
+        },
+      ]
+    },
   },
   methods: {
     openModalNewForm() {
