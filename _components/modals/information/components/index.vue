@@ -171,7 +171,7 @@ export default {
             }
           },
         },
-        requestedBy: {
+        requestedById: {
             value: null,
             type: 'crud',
             permission: 'requestable.requestables.edit-created-by',
@@ -191,6 +191,27 @@ export default {
                 }
               },
             },
+        },
+        responsibleId: {
+          value: null,
+          type: 'crud',
+          permission: 'requestable.requestables.edit-created-by',
+          props: {
+            crudType: 'select',
+            crudData: import('@imagina/quser/_crud/users'),
+            crudProps: {
+              label: this.$tr('isite.cms.label.reponsible'),
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            },
+            config: {
+              filterByQuery: true,
+              options: {
+                label: 'fullName', value: 'id', img: 'mainImage'
+              }
+            }
+          },
         }
         },
         bottom: {
@@ -252,6 +273,7 @@ export default {
       this.categoryType = requestData.type || null;
       this.dynamicFieldForm.requestedById = requestData.requestedById || null;
       this.dynamicFieldForm.createdBy = requestData.createdBy || null;
+      this.dynamicFieldForm.responsibleId = requestData.responsibleId || null
 
       //Set modal data
       this.modal = {
