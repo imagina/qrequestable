@@ -200,7 +200,7 @@ export default {
             crudType: 'select',
             crudData: import('@imagina/quser/_crud/users'),
             crudProps: {
-              label: this.$tr('isite.cms.label.reponsible'),
+              label: this.$tr('requestable.cms.label.responsible'),
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
