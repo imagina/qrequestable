@@ -56,7 +56,7 @@ export default {
                 },
           },
           filters: {
-            requestedBy: {
+            requestedById: {
               value: null,
               type: 'crud',
               permission: "requestable.requestables.filter-requested-by",
