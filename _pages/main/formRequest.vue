@@ -71,7 +71,7 @@ export default {
             }),
           },
         },
-        requestedBy: {
+        requestedById: {
           value: null,
           type: "crud",
           permission: "requestable.requestables.edit-requested-by",
