@@ -87,9 +87,6 @@ export default {
             props: {
               type: 'number',
               label: `${this.$tr('requestable.cms.timeElapsedToCancel')}*`,
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
             },
           },
           requestableType: {
