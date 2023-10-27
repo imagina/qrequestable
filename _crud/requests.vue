@@ -76,16 +76,22 @@ export default {
               },
             },
             createdBy: {
-              type: 'select',
+              value: null,
+              type: 'crud',
               permission: 'requestable.requestables.edit-created-by',
               props: {
-                label: this.$tr('isite.cms.label.creator'),
-                clearable: true
+                crudType: 'select',
+                crudData: import('@imagina/quser/_crud/users'),
+                crudProps: {
+                  label: this.$tr('isite.cms.label.creator'),
+                },
+                config: {
+                  filterByQuery: true,
+                  options: {
+                    label: 'fullName', value: 'id'
+                  }
+                }
               },
-              loadOptions: {
-                apiRoute: 'apiRoutes.quser.users',
-                select: {label: 'fullName', id: 'id'},
-              }
             },
             categoryId: {
               value: null,
