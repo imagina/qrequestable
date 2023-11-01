@@ -3,6 +3,7 @@ import {reactive, computed} from 'vue';
 const state = reactive({
     showModal: false,
     roomId: 0,
+    loading: false,
 });
 
 const store = computed(() => ({
@@ -11,6 +12,12 @@ const store = computed(() => ({
     },
     set showModal(value: boolean) {
         state.showModal = value;
+    },
+    get loading(): boolean {
+        return state.loading;
+    },
+    set loading(value: boolean) {
+        state.loading = value;
     },
     get roomId(): number {
         return state.roomId;

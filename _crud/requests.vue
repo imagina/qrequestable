@@ -40,7 +40,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,creator,status,requestedBy,category.forms.fields',
+                  include: 'fields,creator,status,requestedBy,category.forms.fields,conversation',
                 },
                 orderStatus: {
                   filter: {
@@ -56,7 +56,7 @@ export default {
                 },
           },
           filters: {
-            requestedById: {
+            responsibleId: {
               value: null,
               type: 'crud',
               permission: "requestable.requestables.filter-requested-by",
@@ -65,6 +65,25 @@ export default {
                 crudData: import('@imagina/quser/_crud/users'),
                 crudProps: {
                   label: this.$tr('isite.cms.form.requestedBy'),
+                },
+                clearable: true,
+                config: {
+                  filterByQuery: true,
+                  options: {
+                    label: 'fullName', value: 'id'
+                  }
+                }
+              },
+            },
+            requestedById: {
+              value: null,
+              type: 'crud',
+              permission: "requestable.requestables.filter-requested-by",
+              props: {
+                crudType: 'select',
+                crudData: import('@imagina/quser/_crud/users'),
+                crudProps: {
+                  label: this.$tr('requestable.cms.form.requestedBy'),
                 },
                 clearable: true,
                 config: {
@@ -97,9 +116,10 @@ export default {
               value: null,
               type: 'select',
               quickFilter: true,
+              label: this.$tr('requestable.cms.sidebar.categories'),
               props: {
                 selectByDefault: true,
-                label: `${this.$tr('isite.cms.form.category')}`,
+                label: `${this.$tr('requestable.cms.sidebar.categories')}`,
                 clearable: true,
               },
               loadOptions: {
