@@ -237,18 +237,23 @@ export default {
           props: {
             color: 'green',
             icon: 'fa-brands fa-whatsapp',
+            round: true,
           },
           action: async() => {
             try {
               whatappsModalStore.loading = true;
+              whatappsModalStore.showModal = true;
                 if(!this.conversations) {
-                  const response = await this.$crud.post('apiRoutes.qrequestable.chat',{criteria: this.requestableId},{} );
+                  await this.$crud.post('apiRoutes.qrequestable.chat',{criteria: this.requestableId},{} );
                   whatappsModalStore.roomId = response.data.id;
+                } else {
+                  
+                  whatappsModalStore.roomId = this.conversations.id
                 }
-                whatappsModalStore.showModal = true;
+                
                 setTimeout(() => {
                   whatappsModalStore.loading = false;
-                }, 2000);
+                }, 3000);
             } catch (error) {
               whatappsModalStore.showModal = false;
               
@@ -288,7 +293,7 @@ export default {
       this.dynamicFieldForm.requestedById = requestData.requestedById || null;
       this.dynamicFieldForm.createdBy = requestData.createdBy || null;
       this.dynamicFieldForm.responsibleId = requestData.responsibleId || null
-      this.conversations = requestData.conversations || null;
+      this.conversations = requestData.conversation || null;
 
       //Set modal data
       this.modal = {
