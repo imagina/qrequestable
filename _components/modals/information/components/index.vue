@@ -294,10 +294,12 @@ export default {
       this.dynamicFieldForm.createdBy = requestData.createdBy || null;
       this.dynamicFieldForm.responsibleId = requestData.responsibleId || null
       this.conversations = requestData.conversation || null;
-
+      const statusTitle = requestData.status 
+        ? `- Estado: ${requestData?.status?.title}`
+        : '';
       //Set modal data
       this.modal = {
-        title: `ID:${this.requestableId} - Estado: ${requestData.status.title}`,
+        title: `ID:${this.requestableId} ${statusTitle}`,
         show: true,
         loading: true,
         requestData: [],
