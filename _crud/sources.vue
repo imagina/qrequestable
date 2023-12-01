@@ -69,7 +69,18 @@ export default {
                 ],
                 clearable: true
               }
-            },
+          },
+          parentId: {
+              value: null,
+              type: 'treeSelect',
+              props: {
+                label: this.$tr('isite.cms.form.parent')
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qrequestable.sources',
+                requestParams: {filter: {status: 1}}
+              }
+          },
         },
       }
     },
