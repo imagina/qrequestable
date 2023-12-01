@@ -22,6 +22,7 @@ export default {
             {name: 'description', label: this.$tr('isite.cms.form.description'), field: 'description', align: 'left', sortable: true},
             {
               name: 'status', label: this.$tr('isite.cms.form.status'), field: 'status',
+              align: 'left',
               asStatus: true
             },
             {
