@@ -9,6 +9,7 @@ export default [
       pages.mainqrequestable.requestables,
       pages.qrequestable.categories,
       pages.qrequestable.status,
+      pages.qrequestable.sources
     ]
   }
 ]

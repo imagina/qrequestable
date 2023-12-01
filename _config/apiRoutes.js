@@ -15,5 +15,6 @@ export default {
   categoriesRule: `${urlBase}/category-rule`,
   categoriesFormFields: `${urlBase}/categories/{categoryId}/form-fields`,
   analytics: `${urlBase}/requestable/analytics`,
-  chat: `${urlBase}/requestable/{criteria}/chat`
+  chat: `${urlBase}/requestable/{criteria}/chat`,
+  sources: `${urlBase}/sources`,
 }
