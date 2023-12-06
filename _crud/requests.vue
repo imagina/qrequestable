@@ -33,14 +33,14 @@ export default {
                     name: 'categoryId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.statuses',
-                  include: 'category', 
+                  include: 'category',
                 },
                 card: {
                   filter:{
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,files,creator,status,requestedBy,category',
+                  include: 'fields,creator,status,requestedBy,category.forms.fields',
                 },
                 orderStatus: {
                   filter: {
@@ -59,7 +59,7 @@ export default {
             requestedBy: {
               value: null,
               type: 'crud',
-              permission: 'requestable.requestables.edit-created-by',
+              permission: "requestable.requestables.filter-requested-by",
               props: {
                 crudType: 'select',
                 crudData: import('@imagina/quser/_crud/users'),
@@ -77,7 +77,7 @@ export default {
             },
             createdBy: {
               type: 'select',
-              permission: "requestable.requestables.filter-requested-by",
+              permission: 'requestable.requestables.edit-created-by',
               props: {
                 label: this.$tr('isite.cms.label.creator'),
                 clearable: true
@@ -142,19 +142,48 @@ export default {
               requestParams: {filter: {categoryId: this.crudInfo.categoryId}}
             }
           },
+          createdBy: {
+            value: null,
+            type: 'crud',
+            permission: 'requestable.requestables.edit-created-by',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/quser/_crud/users'),
+              crudProps: {
+                label: this.$tr('isite.cms.form.createdBy'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'fullName', value: 'id'
+                }
+              }
+            },
+          },
           requestedBy: {
             value: null,
-            type: 'select',
-            permission: "requestable.requestables.edit-requested-by",
+            type: 'crud',
+            permission: 'requestable.requestables.edit-requested-by',
             props: {
-              label: this.$tr('isite.cms.form.createdBy'),
+              crudType: 'select',
+              crudData: import('@imagina/quser/_crud/users'),
+              crudProps: {
+                label: this.$tr('isite.cms.form.requestedBy'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'fullName', value: 'id'
+                }
+              }
             },
-            loadOptions: {
-              apiRoute: "apiRoutes.quser.users",
-              select: {label: 'fullName', id: 'id'},
-              //filterByQuery: true
-            }
-          },
+          }
           /*comment: {
             value: null,
             type: 'input',
@@ -179,8 +208,10 @@ export default {
         const response = await this.$crud.index('apiRoutes.qrequestable.categories');
         this.listOfCategories = response.data;
       } catch (error) {
-        this.listOfCategories = [];
-        console.log(error);
+        this.$apiResponse.handleError(error, () => {
+          this.listOfCategories = [];
+          console.log(error);
+        })
       }
     }
   }

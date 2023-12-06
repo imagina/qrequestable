@@ -24,7 +24,7 @@ export default {
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'requestable.cms.sidebar.status',
-    icon: 'fal fa-flag',
+    icon: 'fa-light fa-arrow-progress',
     subHeader: {
       refresh: true,
     }
