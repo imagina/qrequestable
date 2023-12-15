@@ -151,13 +151,13 @@ export default {
           field: { value: 'blockInBlockOut' },
           quickFilter: true
           },
-          createdBy: {
+          sourceId: {
           value: null,
           type: 'crud',
           permission: 'requestable.requestables.edit-created-by',
           props: {
             crudType: 'select',
-            crudData: import('@imagina/quser/_crud/users'),
+            crudData: import('@imagina/qrequestable/_crud/sources'),
             crudProps: {
               label: this.$tr('isite.cms.form.createdBy'),
               rules: [
@@ -167,7 +167,7 @@ export default {
             config: {
               filterByQuery: true,
               options: {
-                label: 'fullName', value: 'id', img: 'mainImage'
+                label: 'title', value: 'id',
               }
             }
           },
