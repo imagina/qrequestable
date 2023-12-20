@@ -15,7 +15,7 @@
 <script>
 //Components
 import fileList from "@imagina/qsite/_components/master/fileList";
-import infomation from '@imagina/qrequestable/_components/modals/infomation'
+import infomation from '@imagina/qrequestable/_components/modals/information/components/index.vue'
 export default {
   components: { fileList, infomation },
   data() {
