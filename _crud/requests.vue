@@ -40,7 +40,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,creator,status,requestedBy,category.forms.fields',
+                  include: 'fields,creator,status,requestedBy,category.forms.fields,conversation',
                 },
                 orderStatus: {
                   filter: {
@@ -56,7 +56,7 @@ export default {
                 },
           },
           filters: {
-            requestedBy: {
+            responsibleId: {
               value: null,
               type: 'crud',
               permission: "requestable.requestables.filter-requested-by",
@@ -75,25 +75,51 @@ export default {
                 }
               },
             },
+            requestedById: {
+              value: null,
+              type: 'crud',
+              permission: "requestable.requestables.filter-requested-by",
+              props: {
+                crudType: 'select',
+                crudData: import('@imagina/quser/_crud/users'),
+                crudProps: {
+                  label: this.$tr('requestable.cms.form.requestedBy'),
+                },
+                clearable: true,
+                config: {
+                  filterByQuery: true,
+                  options: {
+                    label: 'fullName', value: 'id'
+                  }
+                }
+              },
+            },
             createdBy: {
-              type: 'select',
+              value: null,
+              type: 'crud',
               permission: 'requestable.requestables.edit-created-by',
               props: {
-                label: this.$tr('isite.cms.label.creator'),
-                clearable: true
+                crudType: 'select',
+                crudData: import('@imagina/quser/_crud/users'),
+                crudProps: {
+                  label: this.$tr('isite.cms.label.creator'),
+                },
+                config: {
+                  filterByQuery: true,
+                  options: {
+                    label: 'fullName', value: 'id'
+                  }
+                }
               },
-              loadOptions: {
-                apiRoute: 'apiRoutes.quser.users',
-                select: {label: 'fullName', id: 'id'},
-              }
             },
             categoryId: {
               value: null,
               type: 'select',
               quickFilter: true,
+              label: this.$tr('requestable.cms.sidebar.categories'),
               props: {
                 selectByDefault: true,
-                label: `${this.$tr('isite.cms.form.category')}`,
+                label: `${this.$tr('requestable.cms.sidebar.categories')}`,
                 clearable: true,
               },
               loadOptions: {
