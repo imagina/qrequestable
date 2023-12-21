@@ -159,7 +159,7 @@ export default {
             crudType: 'select',
             crudData: import('@imagina/qrequestable/_crud/sources'),
             crudProps: {
-              label: this.$tr('isite.cms.form.createdBy'),
+              label: this.$tr('isite.cms.label.source'),
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
@@ -291,7 +291,7 @@ export default {
       this.statusId = requestData.statusId || null;
       this.categoryType = requestData.type || null;
       this.dynamicFieldForm.requestedById = requestData.requestedById || null;
-      this.dynamicFieldForm.createdBy = requestData.createdBy || null;
+      this.dynamicFieldForm.sourceId = requestData.sourceId || null;
       this.dynamicFieldForm.responsibleId = requestData.responsibleId || null
       this.conversations = requestData.conversation || null;
       const statusTitle = requestData.status 
