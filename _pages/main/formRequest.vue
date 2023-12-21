@@ -103,13 +103,13 @@ export default {
             options: this.statusList
           },
         },
-        createdBy: {
+        sourceId: {
           value: this.$store.state.quserAuth.userId,
           type: "crud",
           permission: "requestable.requestables.edit-created-by",
           props: {
             crudType: "select",
-            crudData: import("@imagina/quser/_crud/users"),
+            crudData: import("@imagina/qrequestable/_crud/sources"),
             crudProps: {
               label: this.$tr("requestable.cms.requestables.table.createdBy"),
               rules: [
@@ -119,7 +119,7 @@ export default {
             config: {
               filterByQuery: true,
               options: {
-                label: "fullName",
+                label: "title",
                 value: "id",
               },
             },
