@@ -38,7 +38,7 @@ export default {
     crud: import('@imagina/qrequestable/_crud/sources'),
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'requestable.cms.sidebar.sources',
+    title: 'isite.cms.label.source',
     icon: 'fa-brands fa-osi',
     subHeader: {
       refresh: true,
