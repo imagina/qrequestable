@@ -81,7 +81,7 @@ export default {
                 requestParams: {filter: {status: 1}}
               }
           },
-          userId: {
+          users: {
             value: null,
             type: 'crud',
             props: {
