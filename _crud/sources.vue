@@ -88,7 +88,7 @@ export default {
               crudType: 'select',
               crudData: import('@imagina/quser/_crud/users'),
               crudProps: {
-                label: this.$trp('isite.cms.label.user'),
+                label: this.$trp('iprofile.cms.sidebar.adminGroup'),
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
