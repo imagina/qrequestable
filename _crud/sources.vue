@@ -84,7 +84,6 @@ export default {
           userId: {
             value: null,
             type: 'crud',
-            permission: 'requestable.requestables.edit-created-by',
             props: {
               crudType: 'select',
               crudData: import('@imagina/quser/_crud/users'),
