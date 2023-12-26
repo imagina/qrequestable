@@ -13,7 +13,7 @@ export default {
         apiRoute: 'apiRoutes.qrequestable.sources',
         permission: 'requestable.sources',
         create: {
-          title: this.$tr('requestable.cms.create')
+          title: this.$tr('requestable.cms.newSource')
         },
         read: {
           columns: [
@@ -37,7 +37,7 @@ export default {
           filters: {}
         },
         update: {
-          title: this.$tr('requestable.cms.sources.update'),
+          title: this.$tr('requestable.cms.updateSource'),
         },
         formLeft: {
           id: {value: ''},
@@ -80,6 +80,29 @@ export default {
                 apiRoute: 'apiRoutes.qrequestable.sources',
                 requestParams: {filter: {status: 1}}
               }
+          },
+          userId: {
+            value: null,
+            type: 'crud',
+            permission: 'requestable.requestables.edit-created-by',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/quser/_crud/users'),
+              crudProps: {
+                label: this.$trp('isite.cms.label.user'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+                multiple: true,
+                useChips: true,
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'fullName', value: 'id',
+                }
+              }
+            },
           },
         },
       }
