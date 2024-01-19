@@ -163,6 +163,7 @@ export default {
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
+                readonly: !this.$auth.hasAccess(`requestable.sources.index`)
               },
               config: {
                 filterByQuery: true,

@@ -34,10 +34,16 @@ export default {
               name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'center'
             }
           ],
-          filters: {}
+          filters: {},
+          requestParams: {
+            include: 'users',           
+          },
         },
         update: {
           title: this.$tr('requestable.cms.updateSource'),
+          requestParams: {
+            include: 'users',           
+          },
         },
         formLeft: {
           id: {value: ''},
