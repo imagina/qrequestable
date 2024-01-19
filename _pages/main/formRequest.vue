@@ -35,8 +35,10 @@ export default {
   components: {},
   watch: {},
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(async function () {
       this.init();
+      this.statusList = await this.getStatus();
+      this.formData.statusId = this.statusList[0].value || null;
     });
   },
   data() {
@@ -71,28 +73,6 @@ export default {
             }),
           },
         },
-        requestedById: {
-          value: null,
-          type: "crud",
-          permission: "requestable.requestables.edit-requested-by",
-          props: {
-            crudType: "select",
-            crudData: import("@imagina/quser/_crud/users"),
-            crudProps: {
-              label: this.$tr("requestable.cms.requestables.table.requestedBy"),
-              rules: [
-                (val) => !!val || this.$tr("isite.cms.message.fieldRequired"),
-              ],
-            },
-            config: {
-              filterByQuery: true,
-              options: {
-                label: "fullName",
-                value: "id",
-              },
-            },
-          },
-        },
         statusId: {
           value: null,
           type: "select",
@@ -125,6 +105,49 @@ export default {
             },
           },
         },
+        requestedById: {
+          value: null,
+          type: "crud",
+          permission: "requestable.requestables.edit-requested-by",
+          props: {
+            crudType: "select",
+            crudData: import("@imagina/quser/_crud/users"),
+            crudProps: {
+              label: this.$tr('isite.cms.form.requestedBy'),
+              rules: [
+                (val) => !!val || this.$tr("isite.cms.message.fieldRequired"),
+              ],
+            },
+            config: {
+              filterByQuery: true,
+              options: {
+                label: "fullName",
+                value: "id",
+              },
+            },
+          },
+        },
+        responsibleId: {
+          value: null,
+          type: 'crud',
+          props: {
+            crudType: 'select',
+            crudData: import('@imagina/quser/_crud/users'),
+            crudProps: {
+              label: this.$tr('requestable.cms.label.responsible'),
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            },
+            config: {
+              filterByQuery: true,
+              options: {
+                label: 'fullName', value: 'id',
+              }
+            }
+          },
+        }
+        
       };
     },
     //Return request selected
@@ -171,17 +194,11 @@ export default {
       return response.data.map(item => ({label: item.title, value: item.id,}));
     },
     async setForm(key) {
-      if (key === "categoryType") {
-        this.formData.statusId = null;
-        this.statusList = await this.getStatus();
         if(this.statusList.length > 0) {
-          this.formData.statusId = this.statusList[0].value || null;
           this.formCategory();
         }
-      }
     },
     formCategory() {
-      console.log(this.formData.statusId);
       this.dynamicForm = {
         vIf:
           this.selectedCategory &&
@@ -195,8 +212,8 @@ export default {
           extraData: {
             type: this.formData.categoryType,
             statusId: this.formData.statusId,
-            requestedBy:
-              this.formData.requestedBy || this.$store.state.quserAuth.userId,
+            requestedBy: this.formData.requestedBy || this.$store.state.quserAuth.userId,
+            responsibleId: this.formData.responsibleId
           },
         },
       };

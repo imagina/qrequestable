@@ -152,24 +152,24 @@ export default {
           quickFilter: true
           },
           sourceId: {
-          value: null,
-          type: 'crud',
-          permission: 'requestable.requestables.edit-created-by',
-          props: {
-            crudType: 'select',
-            crudData: import('@imagina/qrequestable/_crud/sources'),
-            crudProps: {
-              label: this.$tr('isite.cms.label.source'),
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
-            config: {
-              filterByQuery: true,
-              options: {
-                label: 'title', value: 'id',
+            value: null,
+            type: 'crud',
+            permission: 'requestable.requestables.edit-created-by',
+            props: {
+              crudType: 'select',
+              crudData: import('@imagina/qrequestable/_crud/sources'),
+              crudProps: {
+                label: this.$tr('isite.cms.label.source'),
+                rules: [
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                ],
+              },
+              config: {
+                filterByQuery: true,
+                options: {
+                  label: 'title', value: 'id',
+                }
               }
-            }
           },
         },
         requestedById: {
