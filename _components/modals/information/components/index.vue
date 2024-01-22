@@ -27,6 +27,7 @@
                 @submit="saveForm"
                 class="tw-my-2"
                 noSave
+                :hideSystemTypeLike="hideSystemTypeLike"
               />
             </div>
             <dynamic-field 
@@ -110,6 +111,7 @@ export default {
       categoryType: null,
       requestableId: null,
       conversations: null,
+      hideSystemTypeLike: "requestable-internalHidden"
     };
   },
   provide() {
