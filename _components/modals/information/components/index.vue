@@ -160,7 +160,7 @@ export default {
           sourceId: {
             value: null,
             type: 'crud',
-            permission: 'requestable.requestables.edit-created-by',
+            permission: 'requestable.requestables.see-source',
             props: {
               crudType: 'select',
               crudData: import('@imagina/qrequestable/_crud/sources'),
@@ -169,7 +169,7 @@ export default {
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
-                readonly: !this.$auth.hasAccess(`requestable.sources.index`)
+                readonly: !this.$auth.hasAccess(`requestable.requestables.edit-source`)
               },
               config: {
                 filterByQuery: true,
@@ -182,7 +182,7 @@ export default {
         requestedById: {
             value: null,
             type: 'crud',
-            permission: 'requestable.requestables.edit-created-by',
+            permission: 'requestable.requestables.see-requested-by',
             props: {
               crudType: 'select',
               crudData: import('@imagina/quser/_crud/users'),
@@ -191,6 +191,7 @@ export default {
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
+                readonly: !this.$auth.hasAccess(`requestable.requestables.edit-requested-by`)
               },
               config: {
                 filterByQuery: true,
@@ -203,7 +204,7 @@ export default {
         responsibleId: {
           value: null,
           type: 'crud',
-          permission: 'requestable.requestables.edit-created-by',
+          permission: 'requestable.requestables.see-responsible',
           props: {
             crudType: 'select',
             crudData: import('@imagina/quser/_crud/users'),
@@ -212,6 +213,7 @@ export default {
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
+              readonly: !this.$auth.hasAccess(`requestable.requestables.edit-responsible`)
             },
             config: {
               filterByQuery: true,
@@ -226,6 +228,7 @@ export default {
           mediasMulti: {
             value: {},
             type: 'media',
+            vIf: !this.$auth.hasAccess(`requestable.requestables.see-files`),
             props: {
               label: this.$tr('idocs.cms.sidebar.adminGroup'),
               zone: 'documents',
@@ -233,6 +236,7 @@ export default {
               entityId: null,
               multiple: true,
               disk: 'privatemedia',
+              readonly: !this.$auth.hasAccess(`requestable.requestables.edit-files`),
             }
           },
         }

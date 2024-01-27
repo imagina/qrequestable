@@ -93,23 +93,26 @@ export default {
                 },
           },
           filters: {
-            responsibleId: {
-              value: null,
-              type: 'crud',
-              permission: "requestable.requestables.filter-requested-by",
-              props: {
-                crudType: 'select',
-                crudData: import('@imagina/quser/_crud/users'),
-                crudProps: {
-                  label: this.$tr('isite.cms.form.requestedBy'),
-                },
-                clearable: true,
-                config: {
-                  filterByQuery: true,
-                  options: {
-                    label: 'fullName', value: 'id'
+            sourceId: {
+                value: null,
+                type: 'crud',
+                permission: 'requestable.requestables.filter-source',
+                props: {
+                  crudType: 'select',
+                  crudData: import('@imagina/qrequestable/_crud/sources'),
+                  crudProps: {
+                    label: this.$tr('isite.cms.label.source'),
+                    rules: [
+                      val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                    ],
+                    readonly: !this.$auth.hasAccess(`requestable.sources.index`)
+                  },
+                  config: {
+                    filterByQuery: true,
+                    options: {
+                      label: 'title', value: 'id',
+                    }
                   }
-                }
               },
             },
             requestedById: {
@@ -131,20 +134,23 @@ export default {
                 }
               },
             },
-            createdBy: {
+            responsibleId: {
               value: null,
               type: 'crud',
-              permission: 'requestable.requestables.edit-created-by',
+              permission: 'requestable.requestables.filter-responsible',
               props: {
                 crudType: 'select',
                 crudData: import('@imagina/quser/_crud/users'),
                 crudProps: {
-                  label: this.$tr('isite.cms.label.creator'),
+                  label: this.$tr('requestable.cms.label.responsible'),
+                  rules: [
+                    val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                  ],
                 },
                 config: {
                   filterByQuery: true,
                   options: {
-                    label: 'fullName', value: 'id'
+                    label: 'fullName', value: 'id', img: 'mainImage'
                   }
                 }
               },

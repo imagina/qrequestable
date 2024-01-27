@@ -21,6 +21,7 @@
       <!--Dinamic form-->
       <dynamic-form
         v-if="dynamicForm.vIf"
+        :requestParams="requestParams"
         v-bind="dynamicForm"
         @sent="$router.push({ name: 'qrequestable.main.requestables' })"
       />
@@ -49,6 +50,11 @@ export default {
       categoryType: null,
       statusList: [],
       dynamicForm: {vIf: false},
+      requestParams: { 
+        filter: { 
+          renderLocation: 'requestable' 
+        } 
+      }
     };
   },
   computed: {
@@ -86,7 +92,7 @@ export default {
         sourceId: {
           value: null,
           type: "crud",
-          permission: "requestable.requestables.edit-created-by",
+          permission: 'requestable.sources.index',
           props: {
             crudType: "select",
             crudData: import("@imagina/qrequestable/_crud/sources"),
@@ -108,7 +114,7 @@ export default {
         requestedById: {
           value: null,
           type: "crud",
-          permission: "requestable.requestables.edit-requested-by",
+          permission: 'profile.user.index',
           props: {
             crudType: "select",
             crudData: import("@imagina/quser/_crud/users"),
@@ -130,10 +136,12 @@ export default {
         responsibleId: {
           value: null,
           type: 'crud',
+          permission: 'profile.user.index',
           props: {
             crudType: 'select',
             crudData: import('@imagina/quser/_crud/users'),
             crudProps: {
+              vIf: this.$auth.hasAccess('profile.user.index') && this.$auth.hasAccess('requestable.requestables.assign-responsible'),
               label: this.$tr('requestable.cms.label.responsible'),
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
