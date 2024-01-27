@@ -27,6 +27,7 @@
                 @submit="saveForm"
                 class="tw-my-2"
                 noSave
+                :requestParams="requestParams"
               />
             </div>
             <dynamic-field 
@@ -110,6 +111,11 @@ export default {
       categoryType: null,
       requestableId: null,
       conversations: null,
+      requestParams: {
+        filter: {
+          renderLocation: "requestable",
+        },
+      },
     };
   },
   provide() {
