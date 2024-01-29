@@ -48,7 +48,7 @@ export default {
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
-              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'creator',
+              name: 'responsible', label: this.$tr('isite.cms.form.responsible'), field: 'responsible',
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
@@ -61,7 +61,7 @@ export default {
             },
           ],
           requestParams: {
-            include: 'category,status,fields,files,comments,creator,requestedBy',
+            include: 'category,status,fields,files,comments,responsible,requestedBy',
             filter: {}
           },
           kanban: {
@@ -77,7 +77,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,creator,status,requestedBy,category.forms.fields,conversation',
+                  include: 'fields,responsible,status,requestedBy,category.forms.fields,conversation',
                 },
                 orderStatus: {
                   filter: {
@@ -93,7 +93,29 @@ export default {
                 },
           },
           filters: {
-            responsibleId: {
+            sourceId: {
+                value: null,
+                type: 'crud',
+                permission: 'requestable.requestables.filter-source',
+                props: {
+                  crudType: 'select',
+                  crudData: import('@imagina/qrequestable/_crud/sources'),
+                  crudProps: {
+                    label: this.$tr('isite.cms.label.source'),
+                    rules: [
+                      val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                    ],
+                    readonly: !this.$auth.hasAccess(`requestable.sources.index`)
+                  },
+                  config: {
+                    filterByQuery: true,
+                    options: {
+                      label: 'title', value: 'id',
+                    }
+                  }
+              },
+            },
+            requestedById: {
               value: null,
               type: 'crud',
               permission: "requestable.requestables.filter-requested-by",
@@ -112,39 +134,23 @@ export default {
                 }
               },
             },
-            requestedById: {
+            responsibleId: {
               value: null,
               type: 'crud',
-              permission: "requestable.requestables.filter-requested-by",
+              permission: 'requestable.requestables.filter-responsible',
               props: {
                 crudType: 'select',
                 crudData: import('@imagina/quser/_crud/users'),
                 crudProps: {
-                  label: this.$tr('requestable.cms.form.requestedBy'),
-                },
-                clearable: true,
-                config: {
-                  filterByQuery: true,
-                  options: {
-                    label: 'fullName', value: 'id'
-                  }
-                }
-              },
-            },
-            createdBy: {
-              value: null,
-              type: 'crud',
-              permission: 'requestable.requestables.edit-created-by',
-              props: {
-                crudType: 'select',
-                crudData: import('@imagina/quser/_crud/users'),
-                crudProps: {
-                  label: this.$tr('isite.cms.label.creator'),
+                  label: this.$tr('requestable.cms.label.responsible'),
+                  rules: [
+                    val => !!val || this.$tr('isite.cms.message.fieldRequired')
+                  ],
                 },
                 config: {
                   filterByQuery: true,
                   options: {
-                    label: 'fullName', value: 'id'
+                    label: 'fullName', value: 'id', img: 'mainImage'
                   }
                 }
               },
