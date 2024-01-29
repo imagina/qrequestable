@@ -48,7 +48,7 @@ export default {
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
-              name: 'creator', label: this.$tr('isite.cms.form.createdBy'), field: 'creator',
+              name: 'responsible', label: this.$tr('isite.cms.form.responsible'), field: 'responsible',
               format: val => val ? `${val.firstName} ${val.lastName}` : '-', align: 'left'
             },
             {
@@ -61,7 +61,7 @@ export default {
             },
           ],
           requestParams: {
-            include: 'category,status,fields,files,comments,creator,requestedBy',
+            include: 'category,status,fields,files,comments,responsible,requestedBy',
             filter: {}
           },
           kanban: {
@@ -77,7 +77,7 @@ export default {
                     name: 'statusId'
                   },
                   apiRoute: 'apiRoutes.qrequestable.requestables',
-                  include: 'fields,creator,status,requestedBy,category.forms.fields,conversation',
+                  include: 'fields,responsible,status,requestedBy,category.forms.fields,conversation',
                 },
                 orderStatus: {
                   filter: {
