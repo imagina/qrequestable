@@ -123,7 +123,7 @@ export default {
                 crudType: 'select',
                 crudData: import('@imagina/quser/_crud/users'),
                 crudProps: {
-                  label: this.$tr('requestable.cms.form.requestedBy'),
+                  label: this.$tr('isite.cms.form.requestedBy'),
                 },
                 clearable: true,
                 config: {
