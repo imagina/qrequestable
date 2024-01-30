@@ -81,48 +81,22 @@ export default {
           type: {
             value: '',
           },
-          timeElapsedToCancel: {
-            value: '',
-            type: 'input',
-            props: {
-              type: 'number',
-              label: `${this.$tr('requestable.cms.timeElapsedToCancel')}*`,
-              rules: [
-                val => !!val || this.$tr('isite.cms.message.fieldRequired')
-              ],
-            },
-          },
-          requestableType: {
-            value: null,
-            type: 'input',
-            permission: 'requestable.categories.edit-requestable-type',
-            props: {
-              label: `${this.$tr('requestable.cms.requestableType')}`
-            }
-          },
           internal: {
             value: 0,
           },
           formId: {
             value: null,
             type: 'select',
-            required : true,
+            required : false,
             props: {
-              label: `${this.$tr('isite.cms.label.form')}*`
+              label: `${this.$tr('isite.cms.label.form')}`,
+              hint: `${this.$tr('requestable.cms.hints.categoryFormField')}`,
             },
             loadOptions: {
               apiRoute: 'apiRoutes.qform.forms',
               select: {label: 'title', id: 'id'}
             }
           },
-          events: {
-            value: 0,
-            type: 'json',
-            permission: 'requestable.categories.edit-events',
-            props: {
-              label: `${this.$trp('isite.cms.label.event')}`,
-            },
-          }
         },
         getDataForm: (formData, type) => {
           return new Promise(resolve => {

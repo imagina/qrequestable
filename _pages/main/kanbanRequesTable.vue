@@ -15,7 +15,7 @@
 <script>
 //Components
 import fileList from "@imagina/qsite/_components/master/fileList";
-import infomation from '@imagina/qrequestable/_components/modals/infomation'
+import infomation from '@imagina/qrequestable/_components/modals/information/components/index.vue'
 export default {
   components: { fileList, infomation },
   data() {
@@ -74,11 +74,12 @@ export default {
               name: "deleteLead",
               label: this.$tr('isite.cms.label.delete'),
               color: 'red',
+              icon: 'fas fa-trash-alt',
               format: (field) => {
                 return { vIf: this.deletePermissions };
               },
-              action: (item) => {
-                this.delete(item)
+              action: (item, automation) => {
+                this.delete(item, automation)
               },
             }
           ],
@@ -89,12 +90,13 @@ export default {
   methods: {
     //update
     async showModal(requestData) {
+      console.log(requestData);
       await this.$refs.modalInfortion.showRequestData(requestData);
     },
     //delete
-    async delete(item) {
+    async delete(item, automation = false) {
       if (this.$refs.crudRequests.$refs.crudIndex.$refs.kanban) {
-        this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.deleteKanbanCard(item);
+        this.$refs.crudRequests.$refs.crudIndex.$refs.kanban.deleteKanbanCard(item, automation);
       }
     },
     async kanbanRefresh(statusId) {

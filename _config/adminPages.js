@@ -29,4 +29,19 @@ export default {
       refresh: true,
     }
   },
+  sources: {
+    permission: 'requestable.sources.manage',
+    activated: true,
+    authenticated: true,
+    path: '/requestable/source',
+    name: 'qrequestable.admin.sources',
+    crud: import('@imagina/qrequestable/_crud/sources'),
+    page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
+    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    title: 'requestable.cms.sidebar.sources',
+    icon: 'fa-brands fa-osi',
+    subHeader: {
+      refresh: true,
+    }
+  },
 }
