@@ -20,7 +20,7 @@
               :field="field" 
               class="tw-py-2"
             />
-            <div v-if="this.modal.requestData.length > 0 && !showNewForm" >
+            <div v-if="this.modal.requestData.length > 0" >
               <dynamic-form
                 v-model="form"
                 :form-id="formId"
@@ -50,7 +50,6 @@
     </superModal>
     <modalCrud />
     <whatappsModal />
-    <newFormModal />
   </div>
 </template>
 <script>
@@ -74,8 +73,6 @@ import modelFiles from '../models/modelFiles.ts'
 import comments from '@imagina/qsite/_components/master/comments/index.vue'
 import whatappsModalStore from '../stores/whatappsModal.ts'
 import whatappsModal from './whatappsModal.vue'
-import newFormModal from './newFormModal.vue'
-import newFormModalStore from '../stores/newFormModal.ts'
 
 export default {
   components: { 
@@ -86,7 +83,6 @@ export default {
     fileListComponent,
     comments,
     whatappsModal,
-    newFormModal,
   },
   props: {},
   data() {
@@ -131,9 +127,6 @@ export default {
     },
   },
   computed: {
-    showNewForm() {
-      return newFormModalStore.showModal;
-    },
     files() {
       return modelFiles;
     },
@@ -290,12 +283,9 @@ export default {
     },
   },
   methods: {
-    openModalNewForm() {
-      newFormModalStore.showModal = true;
-    },
-    formatDate(date) {
-      return date ? this.$moment(date).format("DD MMM YYYY, h:mm a") : null;
-    },
+    // formatDate(date) {
+    //   return date ? this.$moment(date).format("DD MMM YYYY, h:mm a") : null;
+    // },
     //Fields to show
     async showRequestData(requestData) {
       this.requestableId = requestData.id;
@@ -321,7 +311,6 @@ export default {
       //Merge values
       if (form) {
         this.formId = form.id;
-        newFormModalStore.formId = form.id;
         //Get field values
         let requestValues = {}
         requestData.fields.forEach(item => requestValues[item.name] = item.value)
