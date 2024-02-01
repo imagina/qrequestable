@@ -23,19 +23,19 @@
           <b>{{ title }}</b>
         </div>
         <!--Close Button-->
-        <div 
+        <div
           class="
-           tw-absolute 
-           tw-right-0 
-           tw-mr-20 
+           tw-absolute
+           tw-right-0
+           tw-mr-20
            tw-space-x-2"
           >
-            <q-btn 
+            <q-btn
               v-for="(btn, keyBtn) in multiActions"
               v-if="btn.props.vIf != undefined ? btn.props.vIf : true"
               :key="keyBtn"
               v-bind="{ ...actionBtnProps, ...(btn.props || {}) }"
-              @click="btn.action ? btn.action() : null" 
+              @click="btn.action ? btn.action() : null"
             />
         </div>
         <q-btn
@@ -75,13 +75,13 @@
 </template>
 
 <script lang="ts">
-import { 
-  ref, 
+import {
+  ref,
   watch,
-  reactive, 
+  reactive,
   onMounted,
-  computed, 
-  defineComponent 
+  computed,
+  defineComponent
 } from 'vue';
 
 export default defineComponent({
@@ -142,7 +142,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .master-super-ctn
   .master-dialog
     &__content
@@ -189,5 +189,5 @@ export default defineComponent({
         border-radius $custom-radius 0 0 0 !important
 
       &__body
-        height calc(100vh - 157px)     
+        height calc(100vh - 157px)
 </style>

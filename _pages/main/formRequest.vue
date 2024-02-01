@@ -50,10 +50,10 @@ export default {
       categoryType: null,
       statusList: [],
       dynamicForm: {vIf: false},
-      requestParams: { 
-        filter: { 
-          renderLocation: 'requestable' 
-        } 
+      requestParams: {
+        filter: {
+          renderLocation: 'requestable'
+        }
       }
     };
   },
@@ -155,7 +155,7 @@ export default {
             }
           },
         }
-        
+
       };
     },
     //Return request selected
@@ -229,4 +229,4 @@ export default {
   },
 };
 </script>
-<style lang="stylus"></style>
+<style lang="sass"></style>
