@@ -142,7 +142,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="sass">
+<style lang="scss">
 .master-super-ctn
   .master-dialog
     &__content
