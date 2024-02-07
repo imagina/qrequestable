@@ -45,6 +45,7 @@ export default {
             include: 'users',           
           },
         },
+        delete: true,
         formLeft: {
           id: {value: ''},
           title: {
