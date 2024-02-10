@@ -5,8 +5,8 @@ export default {
     authenticated: true,
     path: '/requestable/index',
     name: 'qrequestable.main.requestables',
-    page: () => import('@imagina/qrequestable/_pages/main/kanbanRequesTable'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    page: () => import('modules/qrequestable/_pages/main/kanbanRequesTable'),
+    layout: () => import('modules/qsite/_layouts/master.vue'),
     title: 'requestable.cms.sidebar.mainRequestable',
     icon: 'fal fa-file-signature',
     subHeader: {

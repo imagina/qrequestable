@@ -14,7 +14,7 @@
 <script lang="ts">
 import Vue, { defineComponent, computed, onMounted } from "vue";
 import whatappsModalStore from '../stores/whatappsModal'
-import advanceChat from '@imagina/qchat/_components/advancedChat.vue'
+import advanceChat from 'modules/qchat/_components/advancedChat.vue'
 
 
 export default defineComponent({

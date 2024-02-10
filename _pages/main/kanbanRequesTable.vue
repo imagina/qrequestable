@@ -5,7 +5,7 @@
       @kanbanRefresh="kanbanRefresh"
     />
     <crud
-      :crudData="import('@imagina/qrequestable/_crud/requests.vue')"
+      :crudData="import('modules/qrequestable/_crud/requests.vue')"
       :custom-data="customData"
       :title="$tr($route.meta.title)"
       ref="crudRequests"
@@ -14,8 +14,8 @@
 </template>
 <script>
 //Components
-import fileList from "@imagina/qsite/_components/master/fileList";
-import infomation from '@imagina/qrequestable/_components/modals/information/components/index.vue'
+import fileList from "modules/qsite/_components/master/fileList";
+import infomation from 'modules/qrequestable/_components/modals/information/components/index.vue'
 export default {
   components: { fileList, infomation },
   data() {

@@ -13,11 +13,11 @@
       <div class="">
         <div class="row q-col-gutter-md">
           <div class="col">
-            <dynamic-field 
-              v-for="(field, keyField) in field.main" 
+            <dynamic-field
+              v-for="(field, keyField) in field.main"
               :key="keyField"
-              v-model="dynamicFieldForm[keyField]" 
-              :field="field" 
+              v-model="dynamicFieldForm[keyField]"
+              :field="field"
               class="tw-py-2"
             />
             <div v-if="this.modal.requestData.length > 0" >
@@ -30,21 +30,21 @@
                 :requestParams="requestParams"
               />
             </div>
-            <dynamic-field 
-              v-for="(field, keyField) in field.bottom" 
+            <dynamic-field
+              v-for="(field, keyField) in field.bottom"
               :key="keyField"
-              v-model="dynamicFieldForm[keyField]" 
-              :field="field" 
+              v-model="dynamicFieldForm[keyField]"
+              :field="field"
               :itemId="requestableId"
               class="tw-py-2"
             />
           </div>
           <div class="col-12 col-md-8 col-lg-7">
-            <comments 
+            <comments
             :commentableId="Number(requestableId)"
             />
           </div>
-          
+
         </div>
       </div>
     </superModal>
@@ -54,8 +54,8 @@
 </template>
 <script>
 //Components
-import fileList from "@imagina/qsite/_components/master/fileList";
-import CKEditor from "@imagina/qsite/_components/master/ckEditor";
+import fileList from "modules/qsite/_components/master/fileList";
+import CKEditor from "modules/qsite/_components/master/ckEditor";
 const commentModel = {
   text: "",
   textEdit: "",
@@ -68,17 +68,17 @@ const commentModel = {
 import superModal from './superModal.vue'
 import modalCrudStore from '../stores/modalCrud.store.ts'
 import modalCrud from './modalCrud.vue'
-import fileListComponent from '@imagina/qsite/_components/master/fileList'
+import fileListComponent from 'modules/qsite/_components/master/fileList'
 import modelFiles from '../models/modelFiles.ts'
-import comments from '@imagina/qsite/_components/master/comments/index.vue'
+import comments from 'modules/qsite/_components/master/comments/index.vue'
 import whatappsModalStore from '../stores/whatappsModal.ts'
 import whatappsModal from './whatappsModal.vue'
 
 export default {
-  components: { 
-    fileList, 
-    CKEditor, 
-    superModal, 
+  components: {
+    fileList,
+    CKEditor,
+    superModal,
     modalCrud,
     fileListComponent,
     comments,
@@ -156,7 +156,7 @@ export default {
             permission: 'requestable.requestables.see-source',
             props: {
               crudType: 'select',
-              crudData: import('@imagina/qrequestable/_crud/sources'),
+              crudData: import('modules/qrequestable/_crud/sources'),
               crudProps: {
                 label: this.$tr('isite.cms.label.source'),
                 rules: [
@@ -178,7 +178,7 @@ export default {
             permission: 'requestable.requestables.see-requested-by',
             props: {
               crudType: 'select',
-              crudData: import('@imagina/quser/_crud/users'),
+              crudData: import('modules/quser/_crud/users'),
               crudProps: {
                 label: this.$tr('isite.cms.form.requestedBy'),
                 rules: [
@@ -200,7 +200,7 @@ export default {
           permission: 'requestable.requestables.see-responsible',
           props: {
             crudType: 'select',
-            crudData: import('@imagina/quser/_crud/users'),
+            crudData: import('modules/quser/_crud/users'),
             crudProps: {
               label: this.$tr('requestable.cms.label.responsible'),
               rules: [
@@ -251,16 +251,16 @@ export default {
                   await this.$crud.post('apiRoutes.qrequestable.chat',{criteria: this.requestableId},{} );
                   whatappsModalStore.roomId = response.data.id;
                 } else {
-                  
+
                   whatappsModalStore.roomId = this.conversations.id
                 }
-                
+
                 setTimeout(() => {
                   whatappsModalStore.loading = false;
                 }, 3000);
             } catch (error) {
               whatappsModalStore.showModal = false;
-              
+
               whatappsModalStore.loading = false;
             }
           }
@@ -295,7 +295,7 @@ export default {
       this.dynamicFieldForm.sourceId = requestData.sourceId || null;
       this.dynamicFieldForm.responsibleId = requestData.responsibleId || null
       this.conversations = requestData.conversation || null;
-      const statusTitle = requestData.status 
+      const statusTitle = requestData.status
         ? `- Estado: ${requestData?.status?.title}`
         : '';
       //Set modal data

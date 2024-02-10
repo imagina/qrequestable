@@ -36,13 +36,13 @@ export default {
           ],
           filters: {},
           requestParams: {
-            include: 'users',           
+            include: 'users',
           },
         },
         update: {
           title: this.$tr('requestable.cms.updateSource'),
           requestParams: {
-            include: 'users',           
+            include: 'users',
           },
         },
         formLeft: {
@@ -92,7 +92,7 @@ export default {
             type: 'crud',
             props: {
               crudType: 'select',
-              crudData: import('@imagina/quser/_crud/users'),
+              crudData: import('modules/quser/_crud/users'),
               crudProps: {
                 label: this.$trp('iprofile.cms.sidebar.adminGroup'),
                 rules: [
