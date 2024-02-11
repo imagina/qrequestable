@@ -5,8 +5,8 @@ export default {
     authenticated: true,
     path: '/requestable/index',
     name: 'qrequestable.main.requestables',
-    page: () => import('@imagina/qrequestable/_pages/main/kanbanRequesTable'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    page: () => import('modules/qrequestable/_pages/main/kanbanRequesTable'),
+    layout: () => import('layouts/master.vue'),
     title: 'requestable.cms.sidebar.mainRequestable',
     icon: 'fal fa-file-signature',
     subHeader: {
@@ -19,8 +19,8 @@ export default {
     authenticated: true,
     path: '/requestable/create',
     name: 'qrequestable.main.requestables.create',
-    page: () => import('@imagina/qrequestable/_pages/main/formRequest'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    page: () => import('modules/qrequestable/_pages/main/formRequest'),
+    layout: () => import('layouts/master.vue'),
     title: 'requestable.cms.sidebar.mainRequestableCreate',
     icon: 'fal fa-file-signature',
     subHeader: {
