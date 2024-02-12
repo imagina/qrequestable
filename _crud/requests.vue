@@ -1,7 +1,7 @@
 <template></template>
 <script>
 //Components
-import fileList from '@imagina/qsite/_components/master/fileList'
+import fileList from 'modules/qsite/_components/master/fileList'
 export default {
   components: {fileList},
   data() {
@@ -99,7 +99,7 @@ export default {
                 permission: 'requestable.requestables.filter-source',
                 props: {
                   crudType: 'select',
-                  crudData: import('@imagina/qrequestable/_crud/sources'),
+                  crudData: import('modules/qrequestable/_crud/sources'),
                   crudProps: {
                     label: this.$tr('isite.cms.label.source'),
                     rules: [
@@ -121,7 +121,7 @@ export default {
               permission: "requestable.requestables.filter-requested-by",
               props: {
                 crudType: 'select',
-                crudData: import('@imagina/quser/_crud/users'),
+                crudData: import('modules/quser/_crud/users'),
                 crudProps: {
                   label: this.$tr('isite.cms.form.requestedBy'),
                 },
@@ -140,7 +140,7 @@ export default {
               permission: 'requestable.requestables.filter-responsible',
               props: {
                 crudType: 'select',
-                crudData: import('@imagina/quser/_crud/users'),
+                crudData: import('modules/quser/_crud/users'),
                 crudProps: {
                   label: this.$tr('requestable.cms.label.responsible'),
                   rules: [
@@ -242,7 +242,7 @@ export default {
             permission: 'requestable.requestables.edit-created-by',
             props: {
               crudType: 'select',
-              crudData: import('@imagina/quser/_crud/users'),
+              crudData: import('modules/quser/_crud/users'),
               crudProps: {
                 label: this.$tr('isite.cms.form.createdBy'),
                 rules: [
@@ -263,7 +263,7 @@ export default {
             permission: 'requestable.requestables.edit-requested-by',
             props: {
               crudType: 'select',
-              crudData: import('@imagina/quser/_crud/users'),
+              crudData: import('modules/quser/_crud/users'),
               crudProps: {
                 label: this.$tr('isite.cms.form.requestedBy'),
                 rules: [
