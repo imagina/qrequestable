@@ -271,6 +271,7 @@ export default {
       return [
         {
           props: {
+            vIf: this.$auth.hasAccess('requestable.requestables.create'),
             label: this.$tr('isite.cms.label.save'),
             color: 'primary',
             icon: 'fa-light fa-save',
