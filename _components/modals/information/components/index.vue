@@ -85,6 +85,7 @@ export default {
     whatappsModal,
   },
   props: {},
+  emits: ['kanbanRefresh'],
   data() {
     return {
       loading: false,
