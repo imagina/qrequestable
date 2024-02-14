@@ -15,7 +15,7 @@
           :key="keyField"
           v-model="formData[keyField]"
           :field="field"
-          @input="setForm(keyField)"
+          @update:modelValue="setForm(keyField)"
         />
       </div>
       <!--Dinamic form-->
