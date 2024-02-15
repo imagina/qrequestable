@@ -86,7 +86,7 @@ import {
 
 export default defineComponent({
   props: {
-    value: { type: Boolean, default: false },
+    modelValue: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
     persistent: { type: Boolean, default: false },
     color: { type: String, default: 'blue-grey' },
@@ -106,7 +106,7 @@ export default defineComponent({
     const show = ref(false);
     const multiActions: any = computed(() => props.multiActions);
     watch(
-      () => props.value,
+      () => props.modelValue,
       (newValue, oldValue) => {
         if (newValue !== oldValue) {
           show.value = newValue;
@@ -118,7 +118,7 @@ export default defineComponent({
       show,
       (newValue, oldValue) => {
         if (newValue !== oldValue) {
-          emit('input', newValue);
+          emit('update:modelValue', newValue);
         }
       }
     );
