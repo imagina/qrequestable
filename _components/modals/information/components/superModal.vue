@@ -30,13 +30,16 @@
            tw-mr-20
            tw-space-x-2"
           >
+          <template
+            v-for="(btn, keyBtn) in multiActions"
+            :key="keyBtn"
+          >
             <q-btn
-              v-for="(btn, keyBtn) in multiActions"
               v-if="btn.props.vIf != undefined ? btn.props.vIf : true"
-              :key="keyBtn"
               v-bind="{ ...actionBtnProps, ...(btn.props || {}) }"
               @click="btn.action ? btn.action() : null"
             />
+          </template>
         </div>
         <q-btn
           v-close-popup
@@ -58,14 +61,18 @@
       <!--Actions Content-->
       <div class="master-dialog__actions" v-if="actions && actions.length">
         <div class="row justify-end q-gutter-sm">
-          <q-btn
+          <template
             v-for="(btn, keyBtn) in actions"
-            v-if="btn.props.vIf != undefined ? btn.props.vIf : true"
             :key="keyBtn"
-            v-bind="{ ...actionBtnProps, ...(btn.props || {}) }"
-            @click="btn.action ? btn.action() : null"
-            :loading="btn.props.loading != undefined ? btn.props.loading : false"
-          />
+          >
+            <q-btn
+              v-if="btn.props.vIf != undefined ? btn.props.vIf : true"
+              v-bind="{ ...actionBtnProps, ...(btn.props || {}) }"
+              @click="btn.action ? btn.action() : null"
+              :loading="btn.props.loading != undefined ? btn.props.loading : false"
+            />
+          </template>
+
         </div>
       </div>
       <!--Loading-->
