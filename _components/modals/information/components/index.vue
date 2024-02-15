@@ -307,6 +307,7 @@ export default {
         requestData: [],
         comments: [],
       };
+      console.log(this.modal);
       //Get form data
       let form = requestData.category?.form || false;
       //Merge values
