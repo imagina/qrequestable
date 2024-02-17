@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     deletePermissions() {
-      return this.$auth.hasAccess('requestable.requestables.destroy');
+      return this.$hasAccess('requestable.requestables.destroy');
     },
     customData() {
       return {
