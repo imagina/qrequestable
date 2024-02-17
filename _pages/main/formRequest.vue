@@ -141,7 +141,7 @@ export default {
             crudType: 'select',
             crudData: import('modules/quser/_crud/users'),
             crudProps: {
-              vIf: this.$auth.hasAccess('profile.user.index') && this.$auth.hasAccess('requestable.requestables.assign-responsible'),
+              vIf: this.$hasAccess('profile.user.index') && this.$hasAccess('requestable.requestables.assign-responsible'),
               label: this.$tr('requestable.cms.label.responsible'),
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')

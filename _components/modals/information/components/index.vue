@@ -133,10 +133,10 @@ export default {
     },
     permisionComments() {
       return {
-        create: this.$auth.hasAccess("icomments.comments.create"),
-        edit: this.$auth.hasAccess("icomments.comments.edit"),
-        index: this.$auth.hasAccess("icomments.comments.index"),
-        destroy: this.$auth.hasAccess("icomments.comments.destroy"),
+        create: this.$hasAccess("icomments.comments.create"),
+        edit: this.$hasAccess("icomments.comments.edit"),
+        index: this.$hasAccess("icomments.comments.index"),
+        destroy: this.$hasAccess("icomments.comments.destroy"),
       };
     },
     field() {
@@ -163,7 +163,7 @@ export default {
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
-                readonly: !this.$auth.hasAccess(`requestable.requestables.edit-source`)
+                readonly: !this.$hasAccess(`requestable.requestables.edit-source`)
               },
               config: {
                 filterByQuery: true,
@@ -185,7 +185,7 @@ export default {
                 rules: [
                   val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
-                readonly: !this.$auth.hasAccess(`requestable.requestables.edit-requested-by`)
+                readonly: !this.$hasAccess(`requestable.requestables.edit-requested-by`)
               },
               config: {
                 filterByQuery: true,
@@ -207,7 +207,7 @@ export default {
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
-              readonly: !this.$auth.hasAccess(`requestable.requestables.edit-responsible`)
+              readonly: !this.$hasAccess(`requestable.requestables.edit-responsible`)
             },
             config: {
               filterByQuery: true,
@@ -222,7 +222,7 @@ export default {
           mediasMulti: {
             value: {},
             type: 'media',
-            vIf: !this.$auth.hasAccess(`requestable.requestables.see-files`),
+            vIf: !this.$hasAccess(`requestable.requestables.see-files`),
             props: {
               label: this.$tr('idocs.cms.sidebar.adminGroup'),
               zone: 'documents',
@@ -230,7 +230,7 @@ export default {
               entityId: null,
               multiple: true,
               disk: 'privatemedia',
-              readonly: !this.$auth.hasAccess(`requestable.requestables.edit-files`),
+              readonly: !this.$hasAccess(`requestable.requestables.edit-files`),
             }
           },
         }
