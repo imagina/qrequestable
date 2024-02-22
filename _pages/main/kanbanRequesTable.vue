@@ -90,7 +90,6 @@ export default {
   methods: {
     //update
     async showModal(requestData) {
-      console.log(requestData);
       await this.$refs.modalInfortion.showRequestData(requestData);
     },
     //delete
