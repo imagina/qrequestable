@@ -1,20 +1,16 @@
 <template>
-<q-dialog
+  <q-dialog
     v-model="show"
-    :content-class="`master-super-ctn master-dialog${customPosition ? '-custom' : ''}`"
+    :class="`master-super-ctn master-dialog${customPosition ? '-custom' : ''}`"
+    v-on="$attrs"
     :maximized="maximized"
     :persistent="persistent"
     :position="customPosition ? 'right' : 'standard'"
-    :content-style="masterModalWidthSize"
+    :style="masterModalWidthSize"
   >
     <!--Content-->
-    <div
-      :id="id || 'masterModalContent'"
-      :style="customPosition ? '' : `min-width: ${width}`"
-      v-if="show"
-      class="master-dialog__content round relative-position"
-      :class="customClass"
-    >
+    <div :id="id || 'masterModalContent'" :style="customPosition ? '' : `min-width: ${width}`"
+         v-if="show" class="master-dialog__content round relative-position" :class="customClass">
       <!--Header-->
       <div :class="`master-dialog__header text-${color} row justify-between items-center`">
         <!--Title-->
@@ -29,7 +25,7 @@
            tw-right-0
            tw-mr-20
            tw-space-x-2"
-          >
+        >
           <template
             v-for="(btn, keyBtn) in multiActions"
             :key="keyBtn"
@@ -78,7 +74,7 @@
       <!--Loading-->
       <inner-loading :visible="loading" />
     </div>
-</q-dialog>
+  </q-dialog>
 </template>
 
 <script lang="ts">
@@ -88,7 +84,8 @@ import {
   reactive,
   onMounted,
   computed,
-  defineComponent
+  defineComponent,
+  onBeforeMount
 } from 'vue';
 
 export default defineComponent({
@@ -107,7 +104,7 @@ export default defineComponent({
     customPosition: { type: Boolean, default: false },
     modalWidthSize: { type: String, default: '65vw' },
     customClass: { type: String, default: '' },
-    multiActions: {type: Array, default: () => [] }
+    multiActions: { type: Array, default: () => [] }
   },
   setup(props, { emit }) {
     const show = ref(false);
@@ -134,18 +131,20 @@ export default defineComponent({
       rounded: true,
       unelevated: true,
       noCaps: true,
-      class: 'btn-small',
+      class: 'btn-small'
     });
 
     const masterModalWidthSize = computed(() => ({ '--modal-width-size': props.modalWidthSize }));
-
+    onBeforeMount(() => {
+      show.value = false;
+    })
     return {
       show,
       actionBtnProps,
       masterModalWidthSize,
-      multiActions,
+      multiActions
     };
-  },
+  }
 });
 </script>
 
@@ -179,7 +178,7 @@ export default defineComponent({
     }
   }
 
-  .master-dialog__body {
+  .master-dialog .master-dialog__body {
     max-height: calc(100vh - 240px);
 
     @media screen and (max-width: $breakpoint-md) {
@@ -190,14 +189,14 @@ export default defineComponent({
   .master-dialog-custom {
     .q-dialog__inner {
       padding: 15px 0 0 0;
-      width: var(--modal-width-size);
+      width: var(--modal-width-size) !important;
 
       @media screen and (max-width: $breakpoint-md) {
-        width: 90vw;
+        width: 90vw !important;
       }
 
       @media screen and (max-width: $breakpoint-xs) {
-        width: 100vw;
+        width: 100vw !important;
       }
     }
 
