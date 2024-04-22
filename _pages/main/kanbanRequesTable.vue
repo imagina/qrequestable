@@ -51,7 +51,7 @@ export default {
           actions: [
             {
               name: "viewEntity",
-              icon: "fas fa-eye",
+              icon: "fa-light fa-eye",
               label: this.$tr("isite.cms.label.show"),
               format: (field) => {
                 return field.requestableUrl ? {} : { vIf: false };
@@ -63,7 +63,7 @@ export default {
             },
             {
               name: "viewLead",
-              icon: "fas fa-info-circle",
+              icon: "fa-light fa-info-circle",
               color: "info",
               tooltip: this.$tr("isite.cms.label.information"),
               action: (item) => {
@@ -74,7 +74,7 @@ export default {
               name: "deleteLead",
               label: this.$tr('isite.cms.label.delete'),
               color: 'red',
-              icon: 'fas fa-trash-alt',
+              icon: 'fa-light fa-trash-alt',
               format: (field) => {
                 return { vIf: this.deletePermissions };
               },
