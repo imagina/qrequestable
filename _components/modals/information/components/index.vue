@@ -391,7 +391,7 @@ export default {
   @apply tw-hidden;
 }
 .list-comments .link-edit:hover {
-  color: var(--q-color-primary);
+  color: var(--q-primary);
 }
 .list-comments .link-delete:hover {
   color: var(--q-color-negative);
