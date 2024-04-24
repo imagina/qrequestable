@@ -394,7 +394,7 @@ export default {
   color: var(--q-primary);
 }
 .list-comments .link-delete:hover {
-  color: var(--q-color-negative);
+  color: var(--q-negative);
 }
 .list-comments .q-timeline__dot-img {
   background: #e0e0e0;
