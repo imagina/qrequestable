@@ -92,6 +92,18 @@ export default {
               ],
             },
           },
+          default: {
+            value: '0',
+            type: 'select',
+            required: true,
+            props: {
+              label: this.$tr('isite.cms.form.default'),
+              options: [
+                {label: this.$tr('isite.cms.label.yes'), value: '1'},
+                {label: this.$tr('isite.cms.label.no'), value: '0'},
+              ]
+            },
+          }
         },
       }
     },
