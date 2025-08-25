@@ -226,7 +226,7 @@ export default {
             props: {
               label: this.$tr('idocs.cms.sidebar.adminGroup'),
               zone: 'documents',
-              entity: "Modules\\Requestable\\Entities\\Requestable",
+              entity: "Modules\\Requestable\\Models\\Requestable",
               entityId: null,
               multiple: true,
               disk: 'privatemedia',
